@@ -1,7 +1,8 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
+from launch.actions import SetEnvironmentVariable
 from launch.conditions import IfCondition
-from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
@@ -9,12 +10,14 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     use_joint_state_publisher = LaunchConfiguration("use_joint_state_publisher")
     use_rviz = LaunchConfiguration("use_rviz")
+    use_software_gl = LaunchConfiguration("use_software_gl")
     model = LaunchConfiguration("model")
     rviz_config = LaunchConfiguration("rviz_config")
 
     return LaunchDescription([
         DeclareLaunchArgument("use_joint_state_publisher", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="true"),
+        DeclareLaunchArgument("use_software_gl", default_value="true"),
         DeclareLaunchArgument(
             "model",
             default_value=PathJoinSubstitution([
@@ -36,7 +39,7 @@ def generate_launch_description():
             executable="robot_state_publisher",
             output="screen",
             parameters=[{
-                "robot_description": Command(["xacro", " ", model]),
+                "robot_description": Command([FindExecutable(name="xacro"), " ", model]),
             }],
         ),
         Node(
@@ -44,6 +47,16 @@ def generate_launch_description():
             executable="joint_state_publisher",
             condition=IfCondition(use_joint_state_publisher),
             output="screen",
+        ),
+        SetEnvironmentVariable(
+            name="LIBGL_ALWAYS_SOFTWARE",
+            value="1",
+            condition=IfCondition(use_software_gl),
+        ),
+        SetEnvironmentVariable(
+            name="QT_XCB_GL_INTEGRATION",
+            value="none",
+            condition=IfCondition(use_software_gl),
         ),
         Node(
             package="rviz2",
