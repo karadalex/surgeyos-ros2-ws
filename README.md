@@ -12,4 +12,5 @@ sudo apt install -y ros-${ROS_DISTRO}-cv-bridge python3-opencv
 colcon build --symlink-install
 source install/setup.bash
 ros2 run vision mounting_detection
+ros2 launch gantry_linear_control gantry.launch.py
 ```
