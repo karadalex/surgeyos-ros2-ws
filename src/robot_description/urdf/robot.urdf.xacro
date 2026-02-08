@@ -13,7 +13,7 @@
     <visual>
       <origin xyz="1.67553 -2.50292 1.41602" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://assets/v_slot_20x40x1500_linear_rail.stl"/>
+        <mesh filename="package://robot_description/meshes/v_slot_20x40x1500_linear_rail.stl"/>
       </geometry>
       <material name="v_slot_20x40x1500_linear_rail_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -22,14 +22,14 @@
     <collision>
       <origin xyz="1.67553 -2.50292 1.41602" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://assets/v_slot_20x40x1500_linear_rail.stl"/>
+        <mesh filename="package://robot_description/meshes/v_slot_20x40x1500_linear_rail.stl"/>
       </geometry>
     </collision>
     <!-- Part v_slot_20x40x1500_linear_rail_2 -->
     <visual>
       <origin xyz="0.190533 -1.00292 1.41602" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://assets/v_slot_20x40x1500_linear_rail.stl"/>
+        <mesh filename="package://robot_description/meshes/v_slot_20x40x1500_linear_rail.stl"/>
       </geometry>
       <material name="v_slot_20x40x1500_linear_rail_2_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -38,14 +38,14 @@
     <collision>
       <origin xyz="0.190533 -1.00292 1.41602" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://assets/v_slot_20x40x1500_linear_rail.stl"/>
+        <mesh filename="package://robot_description/meshes/v_slot_20x40x1500_linear_rail.stl"/>
       </geometry>
     </collision>
     <!-- Part v_slot_20x40x1500_linear_rail_3 -->
     <visual>
       <origin xyz="0.190533 -2.50292 1.41602" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://assets/v_slot_20x40x1500_linear_rail.stl"/>
+        <mesh filename="package://robot_description/meshes/v_slot_20x40x1500_linear_rail.stl"/>
       </geometry>
       <material name="v_slot_20x40x1500_linear_rail_3_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -54,14 +54,14 @@
     <collision>
       <origin xyz="0.190533 -2.50292 1.41602" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://assets/v_slot_20x40x1500_linear_rail.stl"/>
+        <mesh filename="package://robot_description/meshes/v_slot_20x40x1500_linear_rail.stl"/>
       </geometry>
     </collision>
     <!-- Part v_slot_20x40x1500_linear_rail_4 -->
     <visual>
       <origin xyz="1.67553 -1.00292 1.41602" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://assets/v_slot_20x40x1500_linear_rail.stl"/>
+        <mesh filename="package://robot_description/meshes/v_slot_20x40x1500_linear_rail.stl"/>
       </geometry>
       <material name="v_slot_20x40x1500_linear_rail_4_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -70,14 +70,14 @@
     <collision>
       <origin xyz="1.67553 -1.00292 1.41602" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://assets/v_slot_20x40x1500_linear_rail.stl"/>
+        <mesh filename="package://robot_description/meshes/v_slot_20x40x1500_linear_rail.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_t -->
     <visual>
       <origin xyz="1.68953 -2.50352 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_t.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_t.stl"/>
       </geometry>
       <material name="joining_plate_t_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -86,14 +86,14 @@
     <collision>
       <origin xyz="1.68953 -2.50352 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_t.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_t.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_t_2 -->
     <visual>
       <origin xyz="0.176533 -2.50295 1.40652" rpy="-1.5708 0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_t.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_t.stl"/>
       </geometry>
       <material name="joining_plate_t_2_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -102,14 +102,14 @@
     <collision>
       <origin xyz="0.176533 -2.50295 1.40652" rpy="-1.5708 0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_t.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_t.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_90_degree -->
     <visual>
       <origin xyz="0.180533 -1.01292 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
       <material name="joining_plate_90_degree_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -118,14 +118,14 @@
     <collision>
       <origin xyz="0.180533 -1.01292 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_90_degree_2 -->
     <visual>
       <origin xyz="0.176533 -3.99292 1.40652" rpy="-1.5708 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
       <material name="joining_plate_90_degree_2_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -134,14 +134,14 @@
     <collision>
       <origin xyz="0.176533 -3.99292 1.40652" rpy="-1.5708 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_90_degree_3 -->
     <visual>
       <origin xyz="1.66153 -3.99292 1.40652" rpy="-1.5708 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
       <material name="joining_plate_90_degree_3_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -150,14 +150,14 @@
     <collision>
       <origin xyz="1.66153 -3.99292 1.40652" rpy="-1.5708 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_90_degree_4 -->
     <visual>
       <origin xyz="1.68953 -1.01292 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
       <material name="joining_plate_90_degree_4_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -166,14 +166,14 @@
     <collision>
       <origin xyz="1.68953 -1.01292 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_90_degree_5 -->
     <visual>
       <origin xyz="1.66553 -1.01292 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
       <material name="joining_plate_90_degree_5_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -182,14 +182,14 @@
     <collision>
       <origin xyz="1.66553 -1.01292 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_90_degree_6 -->
     <visual>
       <origin xyz="0.200533 -3.99292 1.40652" rpy="-1.5708 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
       <material name="joining_plate_90_degree_6_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -198,14 +198,14 @@
     <collision>
       <origin xyz="0.200533 -3.99292 1.40652" rpy="-1.5708 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_90_degree_7 -->
     <visual>
       <origin xyz="0.204533 -1.01292 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
       <material name="joining_plate_90_degree_7_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -214,14 +214,14 @@
     <collision>
       <origin xyz="0.204533 -1.01292 1.40652" rpy="-1.5708 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
     </collision>
     <!-- Part joining_plate_90_degree_8 -->
     <visual>
       <origin xyz="1.68553 -3.99292 1.40652" rpy="-1.5708 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
       <material name="joining_plate_90_degree_8_material">
         <color rgba="0.866667 0.909804 1 1"/>
@@ -230,14 +230,14 @@
     <collision>
       <origin xyz="1.68553 -3.99292 1.40652" rpy="-1.5708 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/joining_plate_90_degree.stl"/>
+        <mesh filename="package://robot_description/meshes/joining_plate_90_degree.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut -->
     <visual>
       <origin xyz="1.68023 -2.50352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -246,14 +246,14 @@
     <collision>
       <origin xyz="1.68023 -2.50352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw -->
     <visual>
       <origin xyz="1.68953 -2.50352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -262,14 +262,14 @@
     <collision>
       <origin xyz="1.68953 -2.50352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_2 -->
     <visual>
       <origin xyz="1.68023 -2.48352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_2_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -278,14 +278,14 @@
     <collision>
       <origin xyz="1.68023 -2.48352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_2 -->
     <visual>
       <origin xyz="1.68953 -2.48352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_2_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -294,14 +294,14 @@
     <collision>
       <origin xyz="1.68953 -2.48352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_3 -->
     <visual>
       <origin xyz="1.68023 -2.52352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_3_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -310,14 +310,14 @@
     <collision>
       <origin xyz="1.68023 -2.52352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_3 -->
     <visual>
       <origin xyz="1.68953 -2.52352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_3_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -326,14 +326,14 @@
     <collision>
       <origin xyz="1.68953 -2.52352 1.40652" rpy="-1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_4 -->
     <visual>
       <origin xyz="0.185833 -2.50295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_4_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -342,14 +342,14 @@
     <collision>
       <origin xyz="0.185833 -2.50295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_4 -->
     <visual>
       <origin xyz="0.176533 -2.50295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_4_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -358,14 +358,14 @@
     <collision>
       <origin xyz="0.176533 -2.50295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_5 -->
     <visual>
       <origin xyz="0.185833 -2.52295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_5_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -374,14 +374,14 @@
     <collision>
       <origin xyz="0.185833 -2.52295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_5 -->
     <visual>
       <origin xyz="0.176533 -2.52295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_5_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -390,14 +390,14 @@
     <collision>
       <origin xyz="0.176533 -2.52295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_6 -->
     <visual>
       <origin xyz="0.185833 -2.48295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_6_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -406,14 +406,14 @@
     <collision>
       <origin xyz="0.185833 -2.48295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_6 -->
     <visual>
       <origin xyz="0.176533 -2.48295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_6_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -422,14 +422,14 @@
     <collision>
       <origin xyz="0.176533 -2.48295 1.40652" rpy="1.5708 1.5708 0"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_7 -->
     <visual>
       <origin xyz="0.185833 -1.03292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_7_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -438,14 +438,14 @@
     <collision>
       <origin xyz="0.185833 -1.03292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_7 -->
     <visual>
       <origin xyz="0.176533 -1.03292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_7_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -454,14 +454,14 @@
     <collision>
       <origin xyz="0.176533 -1.03292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_8 -->
     <visual>
       <origin xyz="0.185833 -1.05292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_8_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -470,14 +470,14 @@
     <collision>
       <origin xyz="0.185833 -1.05292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_8 -->
     <visual>
       <origin xyz="0.176533 -1.05292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_8_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -486,14 +486,14 @@
     <collision>
       <origin xyz="0.176533 -1.05292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_9 -->
     <visual>
       <origin xyz="0.185833 -1.01292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_9_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -502,14 +502,14 @@
     <collision>
       <origin xyz="0.185833 -1.01292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_9 -->
     <visual>
       <origin xyz="0.176533 -1.01292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_9_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -518,14 +518,14 @@
     <collision>
       <origin xyz="0.176533 -1.01292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_10 -->
     <visual>
       <origin xyz="0.185833 -3.99292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_10_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -534,14 +534,14 @@
     <collision>
       <origin xyz="0.185833 -3.99292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_10 -->
     <visual>
       <origin xyz="0.176533 -3.99292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_10_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -550,14 +550,14 @@
     <collision>
       <origin xyz="0.176533 -3.99292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_11 -->
     <visual>
       <origin xyz="0.185833 -3.95292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_11_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -566,14 +566,14 @@
     <collision>
       <origin xyz="0.185833 -3.95292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_11 -->
     <visual>
       <origin xyz="0.176533 -3.95292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_11_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -582,14 +582,14 @@
     <collision>
       <origin xyz="0.176533 -3.95292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_12 -->
     <visual>
       <origin xyz="0.185833 -3.97292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_12_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -598,14 +598,14 @@
     <collision>
       <origin xyz="0.185833 -3.97292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_12 -->
     <visual>
       <origin xyz="0.176533 -3.97292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_12_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -614,14 +614,14 @@
     <collision>
       <origin xyz="0.176533 -3.97292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_13 -->
     <visual>
       <origin xyz="1.67083 -3.99292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_13_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -630,14 +630,14 @@
     <collision>
       <origin xyz="1.67083 -3.99292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_13 -->
     <visual>
       <origin xyz="1.66153 -3.99292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_13_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -646,14 +646,14 @@
     <collision>
       <origin xyz="1.66153 -3.99292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_14 -->
     <visual>
       <origin xyz="1.67083 -3.95292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_14_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -662,14 +662,14 @@
     <collision>
       <origin xyz="1.67083 -3.95292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_14 -->
     <visual>
       <origin xyz="1.66153 -3.95292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_14_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -678,14 +678,14 @@
     <collision>
       <origin xyz="1.66153 -3.95292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_15 -->
     <visual>
       <origin xyz="1.67083 -3.97292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_15_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -694,14 +694,14 @@
     <collision>
       <origin xyz="1.67083 -3.97292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_15 -->
     <visual>
       <origin xyz="1.66153 -3.97292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_15_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -710,14 +710,14 @@
     <collision>
       <origin xyz="1.66153 -3.97292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_16 -->
     <visual>
       <origin xyz="1.68023 -1.01292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_16_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -726,14 +726,14 @@
     <collision>
       <origin xyz="1.68023 -1.01292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_16 -->
     <visual>
       <origin xyz="1.68953 -1.01292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_16_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -742,14 +742,14 @@
     <collision>
       <origin xyz="1.68953 -1.01292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_17 -->
     <visual>
       <origin xyz="1.68023 -1.05292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_17_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -758,14 +758,14 @@
     <collision>
       <origin xyz="1.68023 -1.05292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_17 -->
     <visual>
       <origin xyz="1.68953 -1.05292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_17_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -774,14 +774,14 @@
     <collision>
       <origin xyz="1.68953 -1.05292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_18 -->
     <visual>
       <origin xyz="1.68023 -1.03292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_18_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -790,14 +790,14 @@
     <collision>
       <origin xyz="1.68023 -1.03292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_18 -->
     <visual>
       <origin xyz="1.68953 -1.03292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_18_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -806,14 +806,14 @@
     <collision>
       <origin xyz="1.68953 -1.03292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_19 -->
     <visual>
       <origin xyz="1.67083 -1.03292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_19_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -822,14 +822,14 @@
     <collision>
       <origin xyz="1.67083 -1.03292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_19 -->
     <visual>
       <origin xyz="1.66153 -1.03292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_19_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -838,14 +838,14 @@
     <collision>
       <origin xyz="1.66153 -1.03292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_20 -->
     <visual>
       <origin xyz="1.67083 -1.05292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_20_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -854,14 +854,14 @@
     <collision>
       <origin xyz="1.67083 -1.05292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_20 -->
     <visual>
       <origin xyz="1.66153 -1.05292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_20_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -870,14 +870,14 @@
     <collision>
       <origin xyz="1.66153 -1.05292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_21 -->
     <visual>
       <origin xyz="1.67083 -1.01292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_21_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -886,14 +886,14 @@
     <collision>
       <origin xyz="1.67083 -1.01292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_21 -->
     <visual>
       <origin xyz="1.66153 -1.01292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_21_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -902,14 +902,14 @@
     <collision>
       <origin xyz="1.66153 -1.01292 1.40652" rpy="3.14159 -0 1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_22 -->
     <visual>
       <origin xyz="0.195233 -3.97292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_22_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -918,14 +918,14 @@
     <collision>
       <origin xyz="0.195233 -3.97292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_22 -->
     <visual>
       <origin xyz="0.204533 -3.97292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_22_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -934,14 +934,14 @@
     <collision>
       <origin xyz="0.204533 -3.97292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_23 -->
     <visual>
       <origin xyz="0.195233 -3.95292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_23_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -950,14 +950,14 @@
     <collision>
       <origin xyz="0.195233 -3.95292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_23 -->
     <visual>
       <origin xyz="0.204533 -3.95292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_23_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -966,14 +966,14 @@
     <collision>
       <origin xyz="0.204533 -3.95292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_24 -->
     <visual>
       <origin xyz="0.195233 -3.99292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_24_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -982,14 +982,14 @@
     <collision>
       <origin xyz="0.195233 -3.99292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_24 -->
     <visual>
       <origin xyz="0.204533 -3.99292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_24_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -998,14 +998,14 @@
     <collision>
       <origin xyz="0.204533 -3.99292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_25 -->
     <visual>
       <origin xyz="0.195233 -1.01292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_25_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -1014,14 +1014,14 @@
     <collision>
       <origin xyz="0.195233 -1.01292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_25 -->
     <visual>
       <origin xyz="0.204533 -1.01292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_25_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -1030,14 +1030,14 @@
     <collision>
       <origin xyz="0.204533 -1.01292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_26 -->
     <visual>
       <origin xyz="0.195233 -1.05292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_26_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -1046,14 +1046,14 @@
     <collision>
       <origin xyz="0.195233 -1.05292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_26 -->
     <visual>
       <origin xyz="0.204533 -1.05292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_26_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -1062,14 +1062,14 @@
     <collision>
       <origin xyz="0.204533 -1.05292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_27 -->
     <visual>
       <origin xyz="0.195233 -1.03292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_27_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -1078,14 +1078,14 @@
     <collision>
       <origin xyz="0.195233 -1.03292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_27 -->
     <visual>
       <origin xyz="0.204533 -1.03292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_27_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -1094,14 +1094,14 @@
     <collision>
       <origin xyz="0.204533 -1.03292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_28 -->
     <visual>
       <origin xyz="1.68023 -3.97292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_28_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -1110,14 +1110,14 @@
     <collision>
       <origin xyz="1.68023 -3.97292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_28 -->
     <visual>
       <origin xyz="1.68953 -3.97292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_28_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -1126,14 +1126,14 @@
     <collision>
       <origin xyz="1.68953 -3.97292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_29 -->
     <visual>
       <origin xyz="1.68023 -3.95292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_29_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -1142,14 +1142,14 @@
     <collision>
       <origin xyz="1.68023 -3.95292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_29 -->
     <visual>
       <origin xyz="1.68953 -3.95292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_29_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -1158,14 +1158,14 @@
     <collision>
       <origin xyz="1.68953 -3.95292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_tee_nut_30 -->
     <visual>
       <origin xyz="1.68023 -3.99292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
       <material name="m5_tee_nut_30_material">
         <color rgba="0.792157 0.819608 0.933333 1"/>
@@ -1174,14 +1174,14 @@
     <collision>
       <origin xyz="1.68023 -3.99292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_tee_nut.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_tee_nut.stl"/>
       </geometry>
     </collision>
     <!-- Part m5_x_10mm_screw_30 -->
     <visual>
       <origin xyz="1.68953 -3.99292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
       <material name="m5_x_10mm_screw_30_material">
         <color rgba="0.945098 0.94902 0.952941 1"/>
@@ -1190,7 +1190,7 @@
     <collision>
       <origin xyz="1.68953 -3.99292 1.40652" rpy="3.14159 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://assets/m5_x_10mm_screw.stl"/>
+        <mesh filename="package://robot_description/meshes/m5_x_10mm_screw.stl"/>
       </geometry>
     </collision>
   </link>

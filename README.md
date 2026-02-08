@@ -4,6 +4,8 @@ SurgeyOS ROS2 Workspace
 
 ## Instructions
 
+(robot simulation still not working)
+
 ```bash
 source /opt/ros/${ROS_DISTRO}/setup.sh
 python3 -m venv .venv
