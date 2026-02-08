@@ -22,7 +22,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'image_processor = vision.mounting_detection_node:main',
+            'mounting_detection = vision.mounting_detection_node:main',
         ],
     },
 )

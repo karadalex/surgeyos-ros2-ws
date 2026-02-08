@@ -58,7 +58,7 @@ class MountingDetection(Node):
 
 def main():
     rclpy.init()
-    node = ImageProcessor()
+    node = MountingDetection()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
