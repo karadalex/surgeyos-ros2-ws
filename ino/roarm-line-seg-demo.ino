@@ -8,70 +8,69 @@ static constexpr int SERVO_RX_PIN = 18;
 static constexpr int SERVO_TX_PIN = 19;
 static constexpr uint32_t SERVO_BAUD = 1000000;
 
-// RoArm-M1 servo IDs (typical): 1..5
-static constexpr uint8_t SERVO_ID[5] = {1, 2, 3, 4, 5}; // base, shoulder, elbow, gripper, wrist
+// RoArm-M1 servo IDs: 1..5 (base, shoulder, elbow, gripper, wrist rotate)
+static constexpr uint8_t SERVO_ID[5] = {1, 2, 3, 4, 5};
 
 // Motion tuning
-static constexpr uint16_t MOVE_SPEED = 1100;  // gentler -> smaller
-static constexpr uint8_t  MOVE_ACC   = 35;    // gentler -> smaller
+static constexpr uint16_t MOVE_SPEED = 1200; // lower = gentler
+static constexpr uint8_t  MOVE_ACC   = 35;   // lower = gentler
 
 // Update timing
-static constexpr uint32_t UPDATE_DT_MS = 25;  // 40 Hz
+static constexpr uint32_t UPDATE_DT_MS = 25; // 40 Hz
 
 // ================== Kinematics model (TUNE THESE) ==================
 // Units: millimeters and radians.
-// Link lengths: shoulder->elbow and elbow->wrist/end-effector reference point.
-// You MUST tune these to your arm (measure approximate distances).
-static constexpr float L1_MM = 115.0f;  // shoulder to elbow
-static constexpr float L2_MM = 115.0f;  // elbow to wrist/end point
+// L1: shoulder->elbow, L2: elbow->wrist-center (NOT tip).
+static constexpr float L1_MM = 115.0f;
+static constexpr float L2_MM = 115.0f;
 
-// Height of shoulder joint center above base frame origin (mm)
+// Height of shoulder joint center above base origin
 static constexpr float SHOULDER_Z_MM = 55.0f;
 
-// Optional tool length beyond wrist pivot to “tip” reference point (mm)
-static constexpr float TOOL_MM = 0.0f;
+// Tool length: wrist-center -> TIP distance (IMPORTANT for tip tracking)
+static constexpr float TOOL_MM = 70.0f; // <-- measure & tune (mm)
 
-// ================== Servo angle->tick mapping (TUNE THESE) ==================
-// ST3215 servo internal range is 0..4095 ticks for 0..360deg.
-// ticks_per_rad = 4096 / (2*pi)
+// Desired tool pitch in the r-z plane (0 = pointing straight outward in +r, positive lifts up)
+static constexpr float TOOL_PITCH_RAD = 0.0f;
+
+// ================== Servo mapping (TUNE THESE) ==================
+// ST3215: 0..4095 ticks = 0..2π rad (one turn)
 static constexpr float TICKS_PER_RAD = 4096.0f / (2.0f * 3.1415926f);
 
-// Offsets (tick center for “0 rad” of each joint in your model).
-// Start with 2048 and then tune so that 0 rad corresponds to your chosen neutral pose.
+// tick_zero = servo tick when model joint angle = 0 rad
 static int16_t tick_zero[5] = {2048, 2048, 2048, 2048, 2048};
 
-// Direction (+1 or -1) to match your physical joint increasing direction
+// dir_sign: flip if joint moves opposite direction
 static int8_t dir_sign[5] = {+1, -1, -1, +1, -1};
 
-// Gear multipliers: some joints may have mechanical ratio vs servo rotation.
-// Waveshare’s ROS serial example effectively uses a multiplier for joint2.
-// Start with these; adjust if joint angles appear scaled wrong.
+// gear_mul: mechanical ratio; shoulder often differs. Start here, tune later.
 static float gear_mul[5] = {1.0f, 3.0f, 1.0f, 1.0f, 1.0f};
 
-// Joint limits in ticks (soft clamp). Adjust to your safe range.
+// Soft tick limits (set tighter after you test safely)
 static int16_t tick_min[5] = {0, 0, 0, 0, 0};
 static int16_t tick_max[5] = {4095, 4095, 4095, 4095, 4095};
 
-// ================== Trajectory: a bigger line segment in XYZ ==================
-// Define a larger segment (mm) in base frame.
-// x forward, y left, z up (convention; match your mental model).
-static constexpr float P0[3] = {160.0f,  0.0f, 110.0f}; // start XYZ
-static constexpr float P1[3] = {260.0f, 60.0f, 140.0f}; // end XYZ
+// ================== Trajectory definition ==================
+// We center a line segment in the "middle" of reachable workspace automatically.
+// Segment length (bigger segment)
+static constexpr float LINE_LEN_MM = 140.0f;   // total length of segment (mm)
+static constexpr uint32_t SEGMENT_MS = 5000;   // time tip takes to go end->end
+static constexpr uint32_t HOLD_MS    = 700;    // pause at ends
 
-static constexpr uint32_t SEGMENT_MS = 4500; // time to go P0->P1
-static constexpr uint32_t HOLD_MS    = 600;  // pause at ends
+// Direction of the line in XY plane (unit vector). Here: along +X axis.
+static constexpr float LINE_DIR_X = 1.0f;
+static constexpr float LINE_DIR_Y = 0.0f;
+
+// Keep tip Z constant at workspace-center Z
+// (You can change to make diagonal lines by also varying Z.)
 
 // ================== Helpers ==================
+static float clampf(float v, float lo, float hi) { return (v < lo) ? lo : (v > hi) ? hi : v; }
+
 static int16_t clamp_tick(int32_t t, int idx) {
   if (t < tick_min[idx]) return tick_min[idx];
   if (t > tick_max[idx]) return tick_max[idx];
   return (int16_t)t;
-}
-
-static float clampf(float v, float lo, float hi) {
-  if (v < lo) return lo;
-  if (v > hi) return hi;
-  return v;
 }
 
 static float smoothstep(float x) {
@@ -81,76 +80,97 @@ static float smoothstep(float x) {
 }
 
 static int16_t angle_to_tick(int joint_idx, float rad) {
-  // Convert model radians to servo ticks
   float ticks_f = (float)tick_zero[joint_idx]
                 + (float)dir_sign[joint_idx] * gear_mul[joint_idx] * (rad * TICKS_PER_RAD);
-
-  int32_t t = (int32_t)lroundf(ticks_f);
-
-  // For 0..4095 wrap-around servos you might prefer wrap. For safety, we clamp.
-  return clamp_tick(t, joint_idx);
+  return clamp_tick((int32_t)lroundf(ticks_f), joint_idx);
 }
 
-static void send_joints_ticks(const int16_t ticks[5]) {
+static void send_ticks(const int16_t ticks[5]) {
   for (int i = 0; i < 5; i++) {
     st.WritePosEx(SERVO_ID[i], ticks[i], MOVE_SPEED, MOVE_ACC);
   }
 }
 
-// ================== IK solver (base + 2-link planar) ==================
-// Input: target XYZ (mm)
-// Output: joint angles (rad) for j1..j5 (we mainly solve j1,j2,j3; set j4 fixed; compute j5 compensation)
-// Returns true if solvable, false if unreachable.
-static bool solve_ik_xyz(float x, float y, float z,
-                        float &j1, float &j2, float &j3, float &j5) {
+// ================== IK: base + 2-link planar to wrist ==================
+// We solve for wrist-center, then compute wrist joint so tool pitch matches TOOL_PITCH_RAD.
+// Input: tip xyz (mm)
+// Output: joint angles (rad): j1(base), j2(shoulder), j3(elbow), j5(wrist pitch/rotate proxy)
+// Return false if unreachable.
+static bool solve_ik_tip_xyz(float tip_x, float tip_y, float tip_z,
+                            float &j1, float &j2, float &j3, float &j5) {
   // Base yaw
-  j1 = atan2f(y, x);
+  j1 = atan2f(tip_y, tip_x);
 
-  // Planar distance from base axis
-  float r = sqrtf(x*x + y*y);
+  // Convert tip target to cylindrical in base frame
+  float tip_r = sqrtf(tip_x * tip_x + tip_y * tip_y);
 
-  // Effective target in shoulder plane
-  float z_sh = z - SHOULDER_Z_MM;
+  // Compute wrist-center target by subtracting tool vector in r-z plane
+  // Tool direction is defined by TOOL_PITCH_RAD in r-z plane.
+  float wrist_r = tip_r - TOOL_MM * cosf(TOOL_PITCH_RAD);
+  float wrist_z = tip_z - TOOL_MM * sinf(TOOL_PITCH_RAD);
 
-  // If you want the "tip" to land on the point and TOOL_MM exists:
-  // subtract tool length in the direction of the forearm/wrist.
-  // For this simple model we ignore TOOL_MM or handle it by shortening L2.
-  float L2_eff = (TOOL_MM > 0.0f) ? (L2_MM - TOOL_MM) : L2_MM;
+  // Shoulder plane coordinates
+  float z_sh = wrist_z - SHOULDER_Z_MM;
+  float r_sh = wrist_r;
 
-  // 2-link IK for (r, z_sh)
-  float d2 = r*r + z_sh*z_sh;
-  float c3 = (d2 - L1_MM*L1_MM - L2_eff*L2_eff) / (2.0f * L1_MM * L2_eff);
-  c3 = clampf(c3, -1.0f, 1.0f);
+  // Reject obviously impossible wrist_r (behind base axis)
+  if (r_sh < 10.0f) return false;
 
-  // elbow-down solution (change sign on s3 for elbow-up)
+  // 2-link IK
+  float d2 = r_sh*r_sh + z_sh*z_sh;
+  float c3_raw = (d2 - L1_MM*L1_MM - L2_MM*L2_MM) / (2.0f * L1_MM * L2_MM);
+
+  if (c3_raw < -1.0f || c3_raw > 1.0f) return false; // unreachable
+
+  float c3 = clampf(c3_raw, -1.0f, 1.0f);
+
+  // elbow-down solution
   float s3 = sqrtf(fmaxf(0.0f, 1.0f - c3*c3));
   j3 = atan2f(s3, c3);
 
-  float k1 = L1_MM + L2_eff * c3;
-  float k2 = L2_eff * s3;
+  float k1 = L1_MM + L2_MM * c3;
+  float k2 = L2_MM * s3;
 
-  j2 = atan2f(z_sh, r) - atan2f(k2, k1);
+  j2 = atan2f(z_sh, r_sh) - atan2f(k2, k1);
 
-  // Wrist compensation: keep tool roughly level in the r-z plane.
-  // Adjust with a constant offset if your tool orientation differs.
-  j5 = -(j2 + j3);
+  // Enforce desired tool pitch: pitch = j2 + j3 + j5
+  j5 = TOOL_PITCH_RAD - (j2 + j3);
 
-  // Basic reachability check (if original c3 was out of [-1,1], it was unreachable)
-  // We clamped, but we can still report unreachable if it was beyond some tolerance.
-  // Here we treat any |c3| > 1.0 before clamp as unreachable:
-  // (We can’t see it now, so approximate by checking edge cases.)
-  // If you want strict, compute before clamp and return false.
   return true;
 }
 
-// ================== Main state machine ==================
+// ================== Workspace-centered line segment ==================
+// We compute a "mid-workspace" center automatically using link lengths.
+// r_center is mid of [r_min, r_max] => equals max(L1, L2) for equal-ish links.
+// Then we ensure tip target stays safely reachable given TOOL and Z.
+static void compute_workspace_center(float &cx, float &cy, float &cz) {
+  float r_min = fabsf(L1_MM - L2_MM);
+  float r_max = (L1_MM + L2_MM);
+
+  // Middle of reachable annulus for the wrist-center
+  float r_center_wrist = 0.5f * (r_min + r_max);
+
+  // Put center slightly above shoulder height to avoid low collisions
+  float z_center = SHOULDER_Z_MM + 0.35f * (L1_MM + L2_MM);
+
+  // Convert wrist-center to tip-center by adding tool vector back
+  float tip_r_center = r_center_wrist + TOOL_MM * cosf(TOOL_PITCH_RAD);
+  float tip_z_center = z_center + TOOL_MM * sinf(TOOL_PITCH_RAD);
+
+  // Place the center on +X axis by default
+  cx = tip_r_center;
+  cy = 0.0f;
+  cz = tip_z_center;
+}
+
+// ================== Trajectory state machine ==================
 enum Phase { GO_0_TO_1, HOLD_1, GO_1_TO_0, HOLD_0 };
 static Phase phase = GO_0_TO_1;
 static uint32_t phase_start_ms = 0;
 static uint32_t last_update_ms = 0;
 
-// Keep gripper fixed at current tick at startup
-static int16_t grip_tick_fixed = 2048;
+// Keep gripper fixed
+static int16_t gripper_fixed_tick = 2048;
 
 void setup() {
   Serial.begin(115200);
@@ -160,11 +180,11 @@ void setup() {
   st.pSerial = &Serial1;
 
   delay(500);
-  Serial.println("RoArm-M1 Cartesian line segment IK demo");
+  Serial.println("RoArm-M1 TIP line segment IK demo (centered in workspace)");
 
-  // Read current gripper position to hold it fixed (optional)
+  // Read current gripper tick so we keep it fixed
   int gp = st.ReadPos(SERVO_ID[3]);
-  if (gp >= 0 && gp <= 4095) grip_tick_fixed = (int16_t)gp;
+  if (gp >= 0 && gp <= 4095) gripper_fixed_tick = (int16_t)gp;
 
   phase_start_ms = millis();
   last_update_ms = phase_start_ms;
@@ -177,63 +197,72 @@ void loop() {
 
   uint32_t elapsed = now - phase_start_ms;
 
+  // Compute workspace-centered segment endpoints (in tip XYZ)
+  float cx, cy, cz;
+  compute_workspace_center(cx, cy, cz);
+
+  // Direction normalize (just in case)
+  float dir_norm = sqrtf(LINE_DIR_X*LINE_DIR_X + LINE_DIR_Y*LINE_DIR_Y);
+  float dx = (dir_norm > 1e-6f) ? (LINE_DIR_X / dir_norm) : 1.0f;
+  float dy = (dir_norm > 1e-6f) ? (LINE_DIR_Y / dir_norm) : 0.0f;
+
+  // Endpoints centered at (cx,cy,cz)
+  float half = 0.5f * LINE_LEN_MM;
+  float p0x = cx - half * dx;
+  float p0y = cy - half * dy;
+  float p0z = cz;
+
+  float p1x = cx + half * dx;
+  float p1y = cy + half * dy;
+  float p1z = cz;
+
+  // Phase interpolation
   float u = 0.0f;
-  bool moving = false;
-
-  if (phase == GO_0_TO_1) {
+  if (phase == GO_0_TO_1 || phase == GO_1_TO_0) {
     u = smoothstep((float)elapsed / (float)SEGMENT_MS);
-    moving = true;
-  } else if (phase == GO_1_TO_0) {
-    u = smoothstep((float)elapsed / (float)SEGMENT_MS);
-    moving = true;
   }
 
-  float x, y, z;
+  float tip_x, tip_y, tip_z;
   if (phase == GO_0_TO_1) {
-    x = P0[0] + (P1[0] - P0[0]) * u;
-    y = P0[1] + (P1[1] - P0[1]) * u;
-    z = P0[2] + (P1[2] - P0[2]) * u;
+    tip_x = p0x + (p1x - p0x) * u;
+    tip_y = p0y + (p1y - p0y) * u;
+    tip_z = p0z + (p1z - p0z) * u;
   } else if (phase == GO_1_TO_0) {
-    x = P1[0] + (P0[0] - P1[0]) * u;
-    y = P1[1] + (P0[1] - P1[1]) * u;
-    z = P1[2] + (P0[2] - P1[2]) * u;
+    tip_x = p1x + (p0x - p1x) * u;
+    tip_y = p1y + (p0y - p1y) * u;
+    tip_z = p1z + (p0z - p1z) * u;
+  } else if (phase == HOLD_1) {
+    tip_x = p1x; tip_y = p1y; tip_z = p1z;
   } else {
-    // Holding: keep endpoint constant
-    if (phase == HOLD_1) { x = P1[0]; y = P1[1]; z = P1[2]; }
-    else                { x = P0[0]; y = P0[1]; z = P0[2]; }
+    tip_x = p0x; tip_y = p0y; tip_z = p0z;
   }
 
-  float j1=0, j2=0, j3=0, j5=0;
-  bool ok = solve_ik_xyz(x, y, z, j1, j2, j3, j5);
-
-  if (!ok) {
-    // If unreachable, don't move (or you could clamp/hold last valid pose)
-    Serial.println("IK unreachable - holding position");
+  // IK solve
+  float j1, j2, j3, j5;
+  if (!solve_ik_tip_xyz(tip_x, tip_y, tip_z, j1, j2, j3, j5)) {
+    // If unreachable, just don't send (holds last position)
+    Serial.println("IK unreachable at this tip target. Reduce LINE_LEN_MM or adjust center/geometry.");
     return;
   }
 
-  // Build target ticks
+  // Convert to ticks
   int16_t ticks[5];
   ticks[0] = angle_to_tick(0, j1);
   ticks[1] = angle_to_tick(1, j2);
   ticks[2] = angle_to_tick(2, j3);
-  ticks[3] = grip_tick_fixed;          // keep gripper fixed
-  ticks[4] = angle_to_tick(4, j5);     // wrist compensation
+  ticks[3] = gripper_fixed_tick;
+  ticks[4] = angle_to_tick(4, j5);
 
-  send_joints_ticks(ticks);
+  send_ticks(ticks);
 
   // Phase transitions
   if (phase == GO_0_TO_1 && elapsed >= SEGMENT_MS) {
-    phase = HOLD_1;
-    phase_start_ms = now;
+    phase = HOLD_1; phase_start_ms = now;
   } else if (phase == HOLD_1 && elapsed >= HOLD_MS) {
-    phase = GO_1_TO_0;
-    phase_start_ms = now;
+    phase = GO_1_TO_0; phase_start_ms = now;
   } else if (phase == GO_1_TO_0 && elapsed >= SEGMENT_MS) {
-    phase = HOLD_0;
-    phase_start_ms = now;
+    phase = HOLD_0; phase_start_ms = now;
   } else if (phase == HOLD_0 && elapsed >= HOLD_MS) {
-    phase = GO_0_TO_1;
-    phase_start_ms = now;
+    phase = GO_0_TO_1; phase_start_ms = now;
   }
 }
