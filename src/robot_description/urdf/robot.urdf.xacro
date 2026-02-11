@@ -3,6 +3,14 @@
 <!-- Onshape
 https://cad.onshape.com/documents/a2e4d90d4720e7eb81b47647/w/f29fb00f1617a93c8228a45a/e/cddef7938b795a6053ad7145 -->
 <robot name="surgeyos-robot2">
+  <!-- Global placement: center robot in XY at the world origin while keeping floor at z=0. -->
+  <link name="world" />
+  <joint name="world_to_robot" type="fixed">
+    <parent link="world" />
+    <child link="x_axis_tracks_inertial" />
+    <origin xyz="-0.898235 1.99646 -1.35" rpy="0 0 0" />
+  </joint>
+
   <!-- Link x_axis_tracks -->
   <link name="x_axis_tracks_inertial">
     <inertial>
