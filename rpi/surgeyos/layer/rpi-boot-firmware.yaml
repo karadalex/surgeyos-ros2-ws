@@ -11,6 +11,7 @@
 mmdebstrap:
   packages:
     - linux-firmware-raspi2
+    - flash-kernel
   customize-hooks:
     - mkdir -p $1/boot/firmware
     - ln -sf firmware/overlays $1/boot/overlays

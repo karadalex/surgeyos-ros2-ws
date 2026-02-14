@@ -11,4 +11,4 @@ mmdebstrap:
   architectures:
     - arm64
   packages:
-    - linux-image-raspi
+    - linux-raspi
