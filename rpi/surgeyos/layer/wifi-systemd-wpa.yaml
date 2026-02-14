@@ -1,0 +1,46 @@
+METABEGIN
+X-Env-Layer-Name: wifi-systemd-wpa
+X-Env-Layer-Category: net
+X-Env-Layer-Desc: Configure wlan0 using wpa_supplicant + systemd-networkd from env vars.
+X-Env-Layer-Requires: systemd-net-min
+#
+X-Env-VarPrefix: wifi
+#
+X-Env-Var-ssid: ''
+X-Env-Var-ssid-Desc: Wi-Fi SSID for wlan0 (leave empty to skip Wi-Fi setup).
+X-Env-Var-ssid-Required: n
+X-Env-Var-ssid-Set: y
+#
+X-Env-Var-psk: ''
+X-Env-Var-psk-Desc: Wi-Fi passphrase (WPA2/WPA3-PSK).
+X-Env-Var-psk-Required: n
+X-Env-Var-psk-Set: y
+# METAEND
+
+mmdebstrap:
+  packages:
+    - wpasupplicant
+    - wireless-regdb
+    - iw
+    - rfkill
+  customize-hooks:
+    - |
+      set -e
+      if [ -z "${IGconf_wifi_ssid:-}" ]; then
+        echo "wifi-systemd-wpa: IGconf_wifi_ssid is empty; skipping Wi-Fi setup"
+        exit 0
+      fi
+
+      install -d "$1/etc/systemd/network" "$1/etc/wpa_supplicant" "$1/etc/systemd/system"
+
+      export WIFI_SSID="${IGconf_wifi_ssid}"
+      export WIFI_PSK="${IGconf_wifi_psk:-}"
+
+      # systemd-networkd config for DHCP on wlan0
+      envsubst < ../templates/wlan0.network.tpl > "$1/etc/systemd/network/10-wlan0.network"
+
+      # wpa_supplicant config for wlan0
+      envsubst < ../templates/wpa_supplicant-wlan0.conf.tpl > "$1/etc/wpa_supplicant/wpa_supplicant-wlan0.conf"
+
+      # Enable wpa_supplicant@wlan0 and systemd-networkd
+      $BDEBSTRAP_HOOKS/enable-units "$1" systemd-networkd wpa_supplicant@wlan0

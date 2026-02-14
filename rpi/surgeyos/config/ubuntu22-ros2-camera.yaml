@@ -1,0 +1,27 @@
+# Ubuntu 22.04 (Jammy) + ROS 2 + Camera + Wi‑Fi + user creds
+#
+# NOTE: rpi-image-gen is primarily oriented around Debian/Raspberry Pi OS.
+# This config uses an Ubuntu mmdebstrap base layer. If your chosen device layer
+# expects Raspberry Pi OS kernel/firmware packages, you may need to adjust that
+# in your rpi-image-gen version (or use the Debian fallback config).
+
+device:
+  # Override with: -- IGconf_device_layer=rpi4 (or rpi5)
+  layer: rpi5
+
+image:
+  # Use the standard Raspberry Pi image layout layer.
+  layer: image-rpios
+  boot_part_size: 200%
+  root_part_size: 300%
+  # Override with: -- IGconf_image_name=...
+  name: ubuntu22-ros2-camera
+
+layer:
+  base: ubuntu-jammy-minbase
+  # Upstream layer that creates user1 and sets its password if IGconf_device_user1pass is set.
+  # (This layer is in rpi-image-gen itself.)
+  creds: rpi-user-credentials
+  wifi: wifi-systemd-wpa
+  camera: rpi-camera-tools
+  ros2: ros2-humble

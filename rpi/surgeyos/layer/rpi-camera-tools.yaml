@@ -1,0 +1,25 @@
+METABEGIN
+X-Env-Layer-Name: rpi-camera-tools
+X-Env-Layer-Category: camera
+X-Env-Layer-Desc: Installs Raspberry Pi camera userspace tooling (Ubuntu: rpicam-apps + libcamera tools).
+X-Env-Layer-Requires: systemd-net-min
+# METAEND
+
+mmdebstrap:
+  packages:
+    # Ubuntu provides libcamera tools; rpicam-apps are available in Ubuntu packaging streams.
+    - libcamera-tools
+    - libcamera-ipa
+    - libcamera0
+    - v4l-utils
+    - gstreamer1.0-tools
+    - gstreamer1.0-libcamera
+    - rpicam-apps
+  customize-hooks:
+    - |
+      set -e
+      # Make sure video group exists (for /dev/video* access) and user1 is a member if present.
+      chroot $1 sh -c "getent group video >/dev/null || groupadd -r video"
+      if [ -n "${IGconf_device_user1:-}" ]; then
+        chroot $1 sh -c "usermod -aG video ${IGconf_device_user1} || true"
+      fi

@@ -1,0 +1,17 @@
+# Debian 12 (Bookworm) fallback + ROS 2 + Camera + Wi‑Fi + user creds
+#
+# If Ubuntu kernel/firmware layering becomes painful, this config stays within
+# the officially-supported Debian/Raspberry Pi OS ecosystem, while still layering
+# in ROS 2 + camera tooling + Wi‑Fi + login.
+
+include:
+  file: bookworm-minbase.yaml
+
+image:
+  root_part_size: 350%
+  name: deb12-ros2-camera
+
+layer:
+  wifi: wifi-systemd-wpa
+  camera: rpi-camera-tools
+  ros2: ros2-humble

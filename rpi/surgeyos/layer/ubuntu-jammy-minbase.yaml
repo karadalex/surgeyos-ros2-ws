@@ -1,0 +1,52 @@
+METABEGIN
+X-Env-Layer-Name: ubuntu-jammy-minbase
+X-Env-Layer-Category: base
+X-Env-Layer-Desc: Minimal Ubuntu 22.04 (Jammy) base filesystem built with mmdebstrap.
+X-Env-Layer-Requires: systemd-net-min,rpi-user-credentials
+#
+# Optional apt mirror override (mmdebstrap uses this list directly)
+X-Env-VarPrefix: ubuntu
+X-Env-Var-mirror: http://ports.ubuntu.com/ubuntu-ports
+X-Env-Var-mirror-Desc: Base Ubuntu mirror for arm64 (ports).
+X-Env-Var-mirror-Required: n
+X-Env-Var-mirror-Set: y
+# METAEND
+
+mmdebstrap:
+  mode: unshare
+  variant: minbase
+  suite: jammy
+  components:
+    - main
+    - universe
+    - multiverse
+    - restricted
+  mirrors:
+    - $IGconf_ubuntu_mirror
+  packages:
+    # basic OS + networking + tools
+    - ubuntu-minimal
+    - ca-certificates
+    - curl
+    - gnupg
+    - netplan.io
+    - iproute2
+    - iputils-ping
+    - openssh-server
+    - sudo
+    - systemd
+    - systemd-sysv
+    - locales
+    - tzdata
+    - udev
+    - kmod
+  customize-hooks:
+    - |
+      set -e
+      # Locale defaults (override via device layer if desired)
+      chroot $1 sh -c "sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen || true"
+      chroot $1 sh -c "update-locale LANG=en_US.UTF-8 || true"
+    - |
+      set -e
+      # Ensure /boot/firmware exists for boot partition mounting conventions
+      mkdir -p "$1/boot/firmware"

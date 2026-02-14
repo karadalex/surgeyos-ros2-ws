@@ -1,0 +1,46 @@
+METABEGIN
+X-Env-Layer-Name: ros2-humble
+X-Env-Layer-Category: robotics
+X-Env-Layer-Desc: Install ROS 2 Humble from packages.ros.org (Ubuntu Jammy).
+X-Env-Layer-Requires: systemd-net-min
+#
+X-Env-VarPrefix: ros
+#
+X-Env-Var-variant: ros-base
+X-Env-Var-variant-Desc: ROS 2 meta-package to install: 'ros-base' or 'desktop'.
+X-Env-Var-variant-Required: n
+X-Env-Var-variant-Set: y
+# METAEND
+
+mmdebstrap:
+  packages:
+    - curl
+    - gnupg
+    - lsb-release
+  customize-hooks:
+    - |
+      set -e
+      # Add ROS 2 apt repo + key (official Humble docs)
+      chroot $1 sh -ceu '
+        apt-get update
+        apt-get install -y --no-install-recommends ca-certificates curl gnupg lsb-release
+        mkdir -p /usr/share/keyrings
+        curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list
+        apt-get update
+        case "${IGconf_ros_variant:-ros-base}" in
+          ros-base) apt-get install -y ros-humble-ros-base ;;
+          desktop)  apt-get install -y ros-humble-desktop ;;
+          *) echo "Unsupported IGconf_ros_variant=${IGconf_ros_variant:-} (use ros-base or desktop)"; exit 2 ;;
+        esac
+        apt-get install -y ros-dev-tools
+      '
+    - |
+      set -e
+      # Make ROS 2 available system-wide on login shells
+      install -d "$1/etc/profile.d"
+      cat > "$1/etc/profile.d/ros2-humble.sh" <<'EOF'
+      if [ -f /opt/ros/humble/setup.sh ]; then
+        . /opt/ros/humble/setup.sh
+      fi
+      EOF
