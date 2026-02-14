@@ -13,6 +13,9 @@ Visualization Manager:
       Description Source: Topic
       Description Topic:
         Value: /robot_description
+  Global Options:
+    Fixed Frame: world
+    Frame Rate: 30
   Enabled: true
   Name: root
   Tools:

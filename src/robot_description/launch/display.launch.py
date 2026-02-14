@@ -4,6 +4,7 @@ from launch.actions import SetEnvironmentVariable
 from launch.conditions import IfCondition
 from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -39,7 +40,10 @@ def generate_launch_description():
             executable="robot_state_publisher",
             output="screen",
             parameters=[{
-                "robot_description": Command([FindExecutable(name="xacro"), " ", model]),
+                "robot_description": ParameterValue(
+                    Command([FindExecutable(name="xacro"), " ", model]),
+                    value_type=str,
+                ),
             }],
         ),
         Node(
