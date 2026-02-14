@@ -69,3 +69,5 @@ install
 log
 
 .env
+
+*.img

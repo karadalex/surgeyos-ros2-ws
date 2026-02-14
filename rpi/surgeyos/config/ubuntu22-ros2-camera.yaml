@@ -15,7 +15,8 @@ image:
   layer: image-rpios
   # Fixed size avoids tiny computed VFAT sizes ("Too few blocks for viable filesystem").
   boot_part_size: 256M
-  root_part_size: 300%
+  # Fixed size avoids oversized image/sparse artefacts exhausting Docker storage.
+  root_part_size: 6G
   # Override with: -- IGconf_image_name=...
   name: ubuntu22-ros2-camera
 

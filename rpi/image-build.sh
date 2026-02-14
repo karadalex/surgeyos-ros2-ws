@@ -22,6 +22,7 @@ export TZ=Etc/UTC
 : "${IGconf_wifi_psk:=}"
 : "${IGconf_ros_variant:=ros-base}"
 : "${IGconf_image_name:=ubuntu22-ros2-camera}"
+: "${IGconf_image_assetdir:=${RECIPE_DIR}/image/mbr/simple_dual-nosparse}"
 : "${IGconf_sys_apt_keydir:=/usr/share/keyrings}"
 
 ./rpi-image-gen/rpi-image-gen build -S "$RECIPE_DIR" -c ubuntu22-ros2-camera.yaml -- \
@@ -32,4 +33,5 @@ export TZ=Etc/UTC
   IGconf_wifi_psk="$IGconf_wifi_psk" \
   IGconf_ros_variant="$IGconf_ros_variant" \
   IGconf_image_name="$IGconf_image_name" \
+  IGconf_image_assetdir="$IGconf_image_assetdir" \
   IGconf_sys_apt_keydir="$IGconf_sys_apt_keydir"

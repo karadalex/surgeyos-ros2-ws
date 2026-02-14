@@ -8,5 +8,9 @@ services:
         volumes:
             - ./surgeyos:/home/imagegen/surgeyos
             - ./image-build.sh:/home/imagegen/image-build.sh
+            - rpi_imagegen_work:/home/imagegen/work
         env_file:
             - ./.env
+
+volumes:
+    rpi_imagegen_work:
