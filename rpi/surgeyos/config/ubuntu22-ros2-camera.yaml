@@ -6,8 +6,9 @@
 # in your rpi-image-gen version (or use the Debian fallback config).
 
 device:
-  # Override with: -- IGconf_device_layer=rpi4 (or rpi5)
-  layer: rpi5
+  # Use Ubuntu device layer to keep package repos/dependencies consistent with Jammy.
+  # Override with: -- IGconf_device_layer=...
+  layer: rpi5-ubuntu
 
 image:
   # Use the standard Raspberry Pi image layout layer.

@@ -10,6 +10,11 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RECIPE_DIR="${SCRIPT_DIR}/surgeyos"
 
+# Avoid interactive debconf prompts during chroot package installation.
+export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
+export TZ=Etc/UTC
+
 : "${IGconf_device_layer:=rpi5-ubuntu}"
 : "${IGconf_device_user1:=robot}"
 : "${IGconf_device_user1pass:=Robot1234!}"

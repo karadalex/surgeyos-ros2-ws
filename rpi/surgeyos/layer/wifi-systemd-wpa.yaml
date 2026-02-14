@@ -35,10 +35,24 @@ mmdebstrap:
       export WIFI_PSK="${IGconf_wifi_psk:-}"
 
       # systemd-networkd config for DHCP on wlan0
-      envsubst < ../templates/wlan0.network.tpl > "$1/etc/systemd/network/10-wlan0.network"
+      printf '%s\n' \
+        '[Match]' \
+        'Name=wlan0' \
+        '' \
+        '[Network]' \
+        'DHCP=yes' \
+        > "$1/etc/systemd/network/10-wlan0.network"
 
       # wpa_supplicant config for wlan0
-      envsubst < ../templates/wpa_supplicant-wlan0.conf.tpl > "$1/etc/wpa_supplicant/wpa_supplicant-wlan0.conf"
+      printf '%s\n' \
+        'ctrl_interface=DIR=/run/wpa_supplicant GROUP=netdev' \
+        'update_config=1' \
+        '' \
+        'network={' \
+        "    ssid=\"${WIFI_SSID}\"" \
+        "    psk=\"${WIFI_PSK}\"" \
+        '}' \
+        > "$1/etc/wpa_supplicant/wpa_supplicant-wlan0.conf"
 
       # Enable wpa_supplicant@wlan0 and systemd-networkd
       $BDEBSTRAP_HOOKS/enable-units "$1" systemd-networkd wpa_supplicant@wlan0

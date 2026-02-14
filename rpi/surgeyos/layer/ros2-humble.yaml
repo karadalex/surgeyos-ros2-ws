@@ -21,18 +21,37 @@ mmdebstrap:
       set -e
       # Add ROS 2 apt repo + key (official Humble docs)
       chroot $1 sh -ceu '
-        apt-get update
-        apt-get install -y --no-install-recommends ca-certificates curl gnupg lsb-release
+        export DEBIAN_FRONTEND=noninteractive
+        CODENAME="$(. /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME:-jammy}}")"
+        ARCH="$(dpkg --print-architecture)"
+        case "${ARCH}" in
+          arm64|armhf|ppc64el|s390x|riscv64) UBUNTU_MIRROR="http://ports.ubuntu.com/ubuntu-ports" ;;
+          *) UBUNTU_MIRROR="http://archive.ubuntu.com/ubuntu" ;;
+        esac
+        printf "%s\n" \
+          "deb ${UBUNTU_MIRROR} ${CODENAME} main universe multiverse restricted" \
+          "deb ${UBUNTU_MIRROR} ${CODENAME}-updates main universe multiverse restricted" \
+          "deb ${UBUNTU_MIRROR} ${CODENAME}-security main universe multiverse restricted" \
+          > /etc/apt/sources.list
+        apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 update
+        apt-get -y --no-install-recommends install ca-certificates curl gnupg lsb-release
         mkdir -p /usr/share/keyrings
-        curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list
-        apt-get update
+        # Prefer GitHub-hosted ROS key to avoid TLS/SAN issues on packages.ros.org in some networks.
+        curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /tmp/ros.key
+        gpg --dearmor -o /usr/share/keyrings/ros-archive-keyring.gpg /tmp/ros.key
+        # Use signed HTTP repo URL as recommended by ROS docs.
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu ${CODENAME} main" > /etc/apt/sources.list.d/ros2.list
+        apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=30 update
         case "${IGconf_ros_variant:-ros-base}" in
-          ros-base) apt-get install -y ros-humble-ros-base ;;
-          desktop)  apt-get install -y ros-humble-desktop ;;
+          ros-base) apt-get -y --no-install-recommends install ros-humble-ros-base ;;
+          desktop)  apt-get -y install ros-humble-desktop ;;
           *) echo "Unsupported IGconf_ros_variant=${IGconf_ros_variant:-} (use ros-base or desktop)"; exit 2 ;;
         esac
-        apt-get install -y ros-dev-tools
+        if apt-cache show ros-dev-tools >/dev/null 2>&1; then
+          apt-get -y --no-install-recommends install ros-dev-tools
+        else
+          echo "ros-dev-tools not available for ${CODENAME}/${IGconf_ros_variant:-ros-base}; continuing"
+        fi
       '
     - |
       set -e
