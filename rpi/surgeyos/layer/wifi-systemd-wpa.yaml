@@ -1,20 +1,18 @@
-METABEGIN
-X-Env-Layer-Name: wifi-systemd-wpa
-X-Env-Layer-Category: net
-X-Env-Layer-Desc: Configure wlan0 using wpa_supplicant + systemd-networkd from env vars.
-X-Env-Layer-Requires: systemd-net-min
+# METABEGIN
+# X-Env-Layer-Name: wifi-systemd-wpa
+# X-Env-Layer-Category: net
+# X-Env-Layer-Desc: Configure wlan0 using wpa_supplicant + systemd-networkd from env vars.
+# X-Env-Layer-Requires: systemd-net-min-ubuntu
 #
-X-Env-VarPrefix: wifi
-#
-X-Env-Var-ssid: ''
-X-Env-Var-ssid-Desc: Wi-Fi SSID for wlan0 (leave empty to skip Wi-Fi setup).
-X-Env-Var-ssid-Required: n
-X-Env-Var-ssid-Set: y
-#
-X-Env-Var-psk: ''
-X-Env-Var-psk-Desc: Wi-Fi passphrase (WPA2/WPA3-PSK).
-X-Env-Var-psk-Required: n
-X-Env-Var-psk-Set: y
+# X-Env-VarPrefix: wifi
+# X-Env-Var-ssid: ''
+# X-Env-Var-ssid-Desc: Wi-Fi SSID for wlan0 (leave empty to skip Wi-Fi setup).
+# X-Env-Var-ssid-Required: n
+# X-Env-Var-ssid-Set: y
+# X-Env-Var-psk: ''
+# X-Env-Var-psk-Desc: Wi-Fi passphrase (WPA2/WPA3-PSK).
+# X-Env-Var-psk-Required: n
+# X-Env-Var-psk-Set: y
 # METAEND
 
 mmdebstrap:

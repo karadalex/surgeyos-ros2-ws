@@ -10,6 +10,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
       gpg-agent \
   && rm -rf /var/lib/apt/lists/*
 
+# Provide Ubuntu archive signing keys for mmdebstrap Ubuntu base builds.
+RUN curl -fsSL https://archive.ubuntu.com/ubuntu/project/ubuntu-archive-keyring.gpg \
+  -o /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
 RUN curl -fsSL https://archive.raspberrypi.com/debian/raspberrypi.gpg.key \
   | gpg --dearmor > /usr/share/keyrings/raspberrypi-archive-keyring.gpg
 

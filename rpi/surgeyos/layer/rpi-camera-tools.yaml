@@ -1,20 +1,17 @@
-METABEGIN
-X-Env-Layer-Name: rpi-camera-tools
-X-Env-Layer-Category: camera
-X-Env-Layer-Desc: Installs Raspberry Pi camera userspace tooling (Ubuntu: rpicam-apps + libcamera tools).
-X-Env-Layer-Requires: systemd-net-min
+# METABEGIN
+# X-Env-Layer-Name: rpi-camera-tools
+# X-Env-Layer-Category: camera
+# X-Env-Layer-Desc: Installs camera userspace tooling available in Ubuntu Jammy.
+# X-Env-Layer-Requires: systemd-net-min-ubuntu
 # METAEND
 
 mmdebstrap:
   packages:
-    # Ubuntu provides libcamera tools; rpicam-apps are available in Ubuntu packaging streams.
+    # Keep to package names available in Ubuntu 22.04 (Jammy).
     - libcamera-tools
-    - libcamera-ipa
     - libcamera0
     - v4l-utils
     - gstreamer1.0-tools
-    - gstreamer1.0-libcamera
-    - rpicam-apps
   customize-hooks:
     - |
       set -e

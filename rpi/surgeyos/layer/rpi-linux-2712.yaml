@@ -1,0 +1,14 @@
+# METABEGIN
+# X-Env-Layer-Name: rpi-linux-2712-ubuntu
+# X-Env-Layer-Category: kernel
+# X-Env-Layer-Desc: Raspberry Pi kernel for Ubuntu Jammy.
+# X-Env-Layer-Version: 1.0.0-ubuntu
+# METAEND
+---
+env:
+  INITRD: "No"
+mmdebstrap:
+  architectures:
+    - arm64
+  packages:
+    - linux-image-raspi

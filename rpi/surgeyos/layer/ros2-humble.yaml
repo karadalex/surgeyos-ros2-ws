@@ -1,15 +1,14 @@
-METABEGIN
-X-Env-Layer-Name: ros2-humble
-X-Env-Layer-Category: robotics
-X-Env-Layer-Desc: Install ROS 2 Humble from packages.ros.org (Ubuntu Jammy).
-X-Env-Layer-Requires: systemd-net-min
+# METABEGIN
+# X-Env-Layer-Name: ros2-humble
+# X-Env-Layer-Category: robotics
+# X-Env-Layer-Desc: Install ROS 2 Humble from packages.ros.org (Ubuntu Jammy).
+# X-Env-Layer-Requires: systemd-net-min-ubuntu
 #
-X-Env-VarPrefix: ros
-#
-X-Env-Var-variant: ros-base
-X-Env-Var-variant-Desc: ROS 2 meta-package to install: 'ros-base' or 'desktop'.
-X-Env-Var-variant-Required: n
-X-Env-Var-variant-Set: y
+# X-Env-VarPrefix: ros
+# X-Env-Var-variant: ros-base
+# X-Env-Var-variant-Desc: ROS 2 meta-package to install: 'ros-base' or 'desktop'.
+# X-Env-Var-variant-Required: n
+# X-Env-Var-variant-Set: y
 # METAEND
 
 mmdebstrap:

@@ -1,15 +1,14 @@
-METABEGIN
-X-Env-Layer-Name: ubuntu-jammy-minbase
-X-Env-Layer-Category: base
-X-Env-Layer-Desc: Minimal Ubuntu 22.04 (Jammy) base filesystem built with mmdebstrap.
-X-Env-Layer-Requires: systemd-net-min,rpi-user-credentials
+# METABEGIN
+# X-Env-Layer-Name: ubuntu-jammy-minbase
+# X-Env-Layer-Category: base
+# X-Env-Layer-Desc: Minimal Ubuntu 22.04 (Jammy) base filesystem built with mmdebstrap.
+# X-Env-Layer-Requires: systemd-net-min-ubuntu,rpi-user-credentials
 #
-# Optional apt mirror override (mmdebstrap uses this list directly)
-X-Env-VarPrefix: ubuntu
-X-Env-Var-mirror: http://ports.ubuntu.com/ubuntu-ports
-X-Env-Var-mirror-Desc: Base Ubuntu mirror for arm64 (ports).
-X-Env-Var-mirror-Required: n
-X-Env-Var-mirror-Set: y
+# X-Env-VarPrefix: ubuntu
+# X-Env-Var-mirror: http://ports.ubuntu.com/ubuntu-ports
+# X-Env-Var-mirror-Desc: Base Ubuntu mirror for arm64 (ports).
+# X-Env-Var-mirror-Required: n
+# X-Env-Var-mirror-Set: y
 # METAEND
 
 mmdebstrap:
@@ -22,7 +21,7 @@ mmdebstrap:
     - multiverse
     - restricted
   mirrors:
-    - $IGconf_ubuntu_mirror
+    - http://ports.ubuntu.com/ubuntu-ports
   packages:
     # basic OS + networking + tools
     - ubuntu-minimal

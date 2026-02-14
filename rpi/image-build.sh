@@ -10,13 +10,14 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RECIPE_DIR="${SCRIPT_DIR}/surgeyos"
 
-: "${IGconf_device_layer:=rpi5}"
+: "${IGconf_device_layer:=rpi5-ubuntu}"
 : "${IGconf_device_user1:=robot}"
-: "${IGconf_device_user1pass:=changeme}"
+: "${IGconf_device_user1pass:=Robot1234!}"
 : "${IGconf_wifi_ssid:=}"
 : "${IGconf_wifi_psk:=}"
 : "${IGconf_ros_variant:=ros-base}"
 : "${IGconf_image_name:=ubuntu22-ros2-camera}"
+: "${IGconf_sys_apt_keydir:=/usr/share/keyrings}"
 
 ./rpi-image-gen/rpi-image-gen build -S "$RECIPE_DIR" -c ubuntu22-ros2-camera.yaml -- \
   IGconf_device_layer="$IGconf_device_layer" \
@@ -25,4 +26,5 @@ RECIPE_DIR="${SCRIPT_DIR}/surgeyos"
   IGconf_wifi_ssid="$IGconf_wifi_ssid" \
   IGconf_wifi_psk="$IGconf_wifi_psk" \
   IGconf_ros_variant="$IGconf_ros_variant" \
-  IGconf_image_name="$IGconf_image_name"
+  IGconf_image_name="$IGconf_image_name" \
+  IGconf_sys_apt_keydir="$IGconf_sys_apt_keydir"

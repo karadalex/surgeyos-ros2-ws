@@ -1,0 +1,32 @@
+# METABEGIN
+# X-Env-Layer-Name: rpi5-ubuntu
+# X-Env-Layer-Category: device
+# X-Env-Layer-Desc: Raspberry Pi 5 device layer override for Ubuntu Jammy.
+# X-Env-Layer-Version: 1.0.0-ubuntu
+# X-Env-Layer-Requires: device-base,rpi-boot-firmware-ubuntu,rpi-linux-2712-ubuntu
+# X-Env-Layer-Provides: device
+#
+# X-Env-VarPrefix: device
+#
+# X-Env-Var-class: pi5
+# X-Env-Var-class-Desc: Device class
+# X-Env-Var-class-Required: n
+# X-Env-Var-class-Valid: keywords:pi5
+# X-Env-Var-class-Set: y
+#
+# X-Env-Var-storage_type: sd
+# X-Env-Var-storage_type-Desc: Pi5 storage type.
+# X-Env-Var-storage_type-Required: n
+# X-Env-Var-storage_type-Valid: sd,nvme
+# X-Env-Var-storage_type-Set: y
+#
+# X-Env-Var-assetdir: ${DIRECTORY}
+# X-Env-Var-assetdir-Desc: Device specific asset directory
+# X-Env-Var-assetdir-Required: n
+# X-Env-Var-assetdir-Valid: string
+# X-Env-Var-assetdir-Set: y
+# METAEND
+---
+mmdebstrap:
+  packages:
+    - linux-firmware-raspi2
