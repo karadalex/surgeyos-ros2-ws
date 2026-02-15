@@ -13,6 +13,10 @@
 # X-Env-Var-psk-Desc: Wi-Fi passphrase (WPA2/WPA3-PSK).
 # X-Env-Var-psk-Required: n
 # X-Env-Var-psk-Set: y
+# X-Env-Var-country: US
+# X-Env-Var-country-Desc: Wi-Fi regulatory domain country code (ISO 3166-1 alpha-2).
+# X-Env-Var-country-Required: n
+# X-Env-Var-country-Set: y
 # METAEND
 
 mmdebstrap:
@@ -33,6 +37,7 @@ mmdebstrap:
 
       export WIFI_SSID="${IGconf_wifi_ssid}"
       export WIFI_PSK="${IGconf_wifi_psk:-}"
+      export WIFI_COUNTRY="${IGconf_wifi_country:-US}"
 
       # systemd-networkd config for DHCP on wlan0
       printf '%s\n' \
@@ -47,6 +52,7 @@ mmdebstrap:
       printf '%s\n' \
         'ctrl_interface=DIR=/run/wpa_supplicant GROUP=netdev' \
         'update_config=1' \
+        "country=${WIFI_COUNTRY}" \
         '' \
         'network={' \
         "    ssid=\"${WIFI_SSID}\"" \
@@ -54,5 +60,24 @@ mmdebstrap:
         '}' \
         > "$1/etc/wpa_supplicant/wpa_supplicant-wlan0.conf"
 
-      # Enable wpa_supplicant@wlan0 and systemd-networkd
-      $BDEBSTRAP_HOOKS/enable-units "$1" systemd-networkd wpa_supplicant@wlan0
+      # Use systemd-resolved stub resolver for DHCP-provided DNS.
+      ln -sf /run/systemd/resolve/stub-resolv.conf "$1/etc/resolv.conf"
+
+      # Unblock Wi-Fi radios at boot; some devices boot with rfkill engaged.
+      cat > "$1/etc/systemd/system/rfkill-unblock-wifi.service" <<'EOF'
+      [Unit]
+      Description=Unblock Wi-Fi via rfkill
+      DefaultDependencies=no
+      Before=network-pre.target
+      Wants=network-pre.target
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/sbin/rfkill unblock wifi
+
+      [Install]
+      WantedBy=multi-user.target
+      EOF
+
+      # Enable networking stack + Wi-Fi services.
+      $BDEBSTRAP_HOOKS/enable-units "$1" systemd-resolved systemd-networkd wpa_supplicant@wlan0 rfkill-unblock-wifi

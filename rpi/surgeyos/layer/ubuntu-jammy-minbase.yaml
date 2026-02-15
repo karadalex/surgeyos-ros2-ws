@@ -47,5 +47,15 @@ mmdebstrap:
       chroot $1 sh -c "update-locale LANG=en_US.UTF-8 || true"
     - |
       set -e
+      # Ensure SSH is enabled on first boot and password login works for the provisioned user.
+      $BDEBSTRAP_HOOKS/enable-units "$1" ssh
+      install -d "$1/etc/ssh/sshd_config.d"
+      cat > "$1/etc/ssh/sshd_config.d/99-password-auth.conf" <<'EOF'
+      PasswordAuthentication yes
+      KbdInteractiveAuthentication no
+      UsePAM yes
+      EOF
+    - |
+      set -e
       # Ensure /boot/firmware exists for boot partition mounting conventions
       mkdir -p "$1/boot/firmware"
