@@ -49,12 +49,31 @@ mmdebstrap:
       set -e
       # Ensure SSH is enabled on first boot and password login works for the provisioned user.
       $BDEBSTRAP_HOOKS/enable-units "$1" ssh
+      cat > "$1/etc/systemd/system/ssh-hostkeys.service" <<'EOF'
+      [Unit]
+      Description=Generate SSH host keys if missing
+      Before=ssh.service
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/bin/ssh-keygen -A
+
+      [Install]
+      WantedBy=multi-user.target
+      EOF
+      install -d "$1/etc/systemd/system/ssh.service.d"
+      cat > "$1/etc/systemd/system/ssh.service.d/10-hostkeys.conf" <<'EOF'
+      [Unit]
+      Wants=ssh-hostkeys.service
+      After=ssh-hostkeys.service
+      EOF
       install -d "$1/etc/ssh/sshd_config.d"
       cat > "$1/etc/ssh/sshd_config.d/99-password-auth.conf" <<'EOF'
       PasswordAuthentication yes
       KbdInteractiveAuthentication no
       UsePAM yes
       EOF
+      $BDEBSTRAP_HOOKS/enable-units "$1" ssh-hostkeys
     - |
       set -e
       # Ensure /boot/firmware exists for boot partition mounting conventions

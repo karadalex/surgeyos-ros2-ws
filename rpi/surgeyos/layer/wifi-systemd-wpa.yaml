@@ -39,10 +39,10 @@ mmdebstrap:
       export WIFI_PSK="${IGconf_wifi_psk:-}"
       export WIFI_COUNTRY="${IGconf_wifi_country:-US}"
 
-      # systemd-networkd config for DHCP on wlan0
+      # systemd-networkd config for DHCP on Wi-Fi interfaces.
       printf '%s\n' \
         '[Match]' \
-        'Name=wlan0' \
+        'Name=wl*' \
         '' \
         '[Network]' \
         'DHCP=yes' \
@@ -79,5 +79,23 @@ mmdebstrap:
       WantedBy=multi-user.target
       EOF
 
+      install -d "$1/usr/local/sbin"
+      # Recover from boot-order races and dynamic Wi-Fi interface names (wlan0/wlp*).
+      install -m 0755 "$SRCROOT/scripts/wifi-bringup.sh" "$1/usr/local/sbin/wifi-bringup.sh"
+
+      cat > "$1/etc/systemd/system/wifi-bringup.service" <<'EOF'
+      [Unit]
+      Description=Recover Wi-Fi bring-up after boot races/interface naming
+      After=systemd-udev-settle.service systemd-networkd.service
+      Wants=systemd-udev-settle.service systemd-networkd.service
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/sbin/wifi-bringup.sh
+
+      [Install]
+      WantedBy=multi-user.target
+      EOF
+
       # Enable networking stack + Wi-Fi services.
-      $BDEBSTRAP_HOOKS/enable-units "$1" systemd-resolved systemd-networkd wpa_supplicant@wlan0 rfkill-unblock-wifi
+      $BDEBSTRAP_HOOKS/enable-units "$1" systemd-resolved systemd-networkd rfkill-unblock-wifi wifi-bringup
