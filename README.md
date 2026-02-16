@@ -36,3 +36,18 @@ To run the simulation:
 ```bash
 ros2 launch robot_description display.launch.py use_rviz:=true
 ```
+
+### To prepare the raspberry pi:
+
+1. Install ubuntu server using raspberry pi imager with username, password and wifi configurations
+2. Login to raspberry pi (preferrable via vscode to easily upload files)
+3. upload install_ros2_rolling.sh from scripts directory
+4. Run 
+```bash
+chmod +x install_ros2_rolling.sh
+./install_ros2_rolling.sh
+```
+5. Install ubuntu desktop 
+```bash
+sudo apt install -y ubuntu-desktop
+```
