@@ -1,0 +1,83 @@
+name: Workspace Build Matrix
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-rolling:
+    name: Build (rolling on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+
+    env:
+      ROS_DISTRO: rolling
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup ROS 2
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: rolling
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-colcon-common-extensions python3-rosdep
+
+      - name: Install dependencies with rosdep
+        run: |
+          sudo rosdep init || true
+          rosdep update
+          rosdep install --from-paths src --ignore-src -r -y --rosdistro "${ROS_DISTRO}"
+
+      - name: Build workspace
+        shell: bash
+        run: |
+          source /opt/ros/"${ROS_DISTRO}"/setup.bash
+          colcon build --event-handlers console_direct+ --symlink-install
+
+  build-foxy:
+    name: Build (foxy in container on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+    container:
+      image: ros:foxy-ros-base-focal
+
+    env:
+      ROS_DISTRO: foxy
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install -y python3-colcon-common-extensions python3-rosdep
+
+      - name: Install dependencies with rosdep
+        shell: bash
+        run: |
+          rosdep init || true
+          rosdep update
+          rosdep install --from-paths src --ignore-src -r -y --rosdistro "${ROS_DISTRO}"
+
+      - name: Build workspace
+        shell: bash
+        run: |
+          source /opt/ros/"${ROS_DISTRO}"/setup.bash
+          colcon build --event-handlers console_direct+ --symlink-install
