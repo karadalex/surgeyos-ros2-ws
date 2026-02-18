@@ -11,7 +11,7 @@ class MountingDetection(Node):
     def __init__(self):
         super().__init__('mounting_detection')
 
-        self.declare_parameter('input_topic', '/image')
+        self.declare_parameter('input_topic', '/camera/image_raw')
         self.declare_parameter('output_topic', '/image/processed')
         self.declare_parameter('use_canny', True)
 

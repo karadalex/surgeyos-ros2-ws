@@ -128,3 +128,35 @@ If you do that, at least firewall it:
 ```bash
 sudo ufw allow 5901/tcp
 ```
+
+
+### Stream Video
+
+Here are some instructions to stream the video feeds to another computer on the same network without having installed ros2 e.g. on Mac OS computers. On the raspberry pi run the following instructions:
+```bash
+sudo apt install ros-${ROS_DISTRO}-web-video-server
+source /opt/ros/${ROS_DISTRO}/setup.bash
+ros2 run web_video_server web_video_server
+```
+You must also have installed the camera_ros ros2 package as described [here](https://index.ros.org/p/camera_ros/)
+```bash
+source /opt/ros/$ROS_DISTRO/setup.bash
+sudo apt install ros-$ROS_DISTRO-camera-ros
+```
+on one terminal run the camera node
+```bash
+ros2 run camera_ros camera_node
+```
+on a second terminal run the video webserver
+```bash
+ros2 run web_video_server web_video_server
+```
+This webserver is accessible in the local network at <RASPBERRY_PI_IP>:8080
+On a third terminal run the vision node
+```bash
+cd surgeyos-ros2-ws
+source /opt/ros/$ROS_DISTRO/setup.bash
+colcon build --symlink-install --packages-select vision
+source install/setup.bash
+ros2 launch vision mounting_detection.launch.py
+```

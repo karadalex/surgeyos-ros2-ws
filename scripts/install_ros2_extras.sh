@@ -1,0 +1,1 @@
+sudo apt install ros-$ROS_DISTRO-camera-ros
