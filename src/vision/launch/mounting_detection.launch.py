@@ -12,7 +12,7 @@ def generate_launch_description():
             parameters=[
                 {'input_topic': '/camera/image_raw'},
                 {'output_topic': '/image/processed'},
-                {'use_canny': True},
+                {'min_hole_area_px': 60.0},
             ],
         ),
     ])

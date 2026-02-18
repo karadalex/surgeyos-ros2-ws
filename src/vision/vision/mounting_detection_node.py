@@ -5,6 +5,7 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
 import cv2
+import numpy as np
 
 
 class MountingDetection(Node):
@@ -13,7 +14,7 @@ class MountingDetection(Node):
 
         self.declare_parameter('input_topic', '/camera/image_raw')
         self.declare_parameter('output_topic', '/image/processed')
-        self.declare_parameter('use_canny', True)
+        self.declare_parameter('min_hole_area_px', 60.0)
 
         input_topic = self.get_parameter('input_topic').get_parameter_value().string_value
         output_topic = self.get_parameter('output_topic').get_parameter_value().string_value
@@ -36,16 +37,75 @@ class MountingDetection(Node):
         try:
             # Convert ROS Image -> OpenCV image (BGR8)
             frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+            out = frame.copy()
 
-            # Example processing: grayscale + optional Canny
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # Segment green regions in HSV space.
+            hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+            lower_green = np.array([35, 50, 40], dtype=np.uint8)
+            upper_green = np.array([90, 255, 255], dtype=np.uint8)
+            green_mask = cv2.inRange(hsv, lower_green, upper_green)
 
-            use_canny = self.get_parameter('use_canny').get_parameter_value().bool_value
-            if use_canny:
-                edges = cv2.Canny(gray, 80, 160)
-                out = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
-            else:
-                out = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+            kernel = np.ones((5, 5), np.uint8)
+            green_mask = cv2.morphologyEx(green_mask, cv2.MORPH_OPEN, kernel, iterations=1)
+            green_mask = cv2.morphologyEx(green_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
+
+            object_contours, _ = cv2.findContours(
+                green_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+            )
+            if not object_contours:
+                out_msg = self.bridge.cv2_to_imgmsg(out, encoding='bgr8')
+                out_msg.header = msg.header
+                self.pub.publish(out_msg)
+                return
+
+            # Use the largest green connected region as the target object.
+            obj = max(object_contours, key=cv2.contourArea)
+            object_area = cv2.contourArea(obj)
+            if object_area < 500.0:
+                out_msg = self.bridge.cv2_to_imgmsg(out, encoding='bgr8')
+                out_msg.header = msg.header
+                self.pub.publish(out_msg)
+                return
+
+            cv2.drawContours(out, [obj], -1, (0, 255, 0), 2)
+
+            obj_mask = np.zeros(green_mask.shape, dtype=np.uint8)
+            cv2.drawContours(obj_mask, [obj], -1, 255, thickness=cv2.FILLED)
+
+            # Holes appear as non-green islands inside the green object.
+            holes_mask = cv2.bitwise_and(cv2.bitwise_not(green_mask), obj_mask)
+            holes_mask = cv2.morphologyEx(holes_mask, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+
+            hole_contours, _ = cv2.findContours(
+                holes_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+            )
+
+            min_hole_area = self.get_parameter(
+                'min_hole_area_px'
+            ).get_parameter_value().double_value
+            hole_count = 0
+            for hole in hole_contours:
+                area = cv2.contourArea(hole)
+                if area < min_hole_area:
+                    continue
+                hole_count += 1
+                (cx, cy), radius = cv2.minEnclosingCircle(hole)
+                center = (int(cx), int(cy))
+                cv2.circle(out, center, int(radius), (0, 0, 255), 2)
+                cv2.circle(out, center, 3, (255, 0, 0), -1)
+
+            x, y, w, h = cv2.boundingRect(obj)
+            cv2.rectangle(out, (x, y), (x + w, y + h), (0, 255, 255), 2)
+            cv2.putText(
+                out,
+                f'holes: {hole_count}',
+                (x, max(0, y - 10)),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                (0, 255, 255),
+                2,
+                cv2.LINE_AA,
+            )
 
             # Convert OpenCV -> ROS Image
             out_msg = self.bridge.cv2_to_imgmsg(out, encoding='bgr8')
