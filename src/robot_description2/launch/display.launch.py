@@ -13,6 +13,7 @@ def generate_launch_description():
     use_rviz = LaunchConfiguration("use_rviz")
     use_software_gl = LaunchConfiguration("use_software_gl")
     model = LaunchConfiguration("model")
+    rviz_config = LaunchConfiguration("rviz_config")
 
     return LaunchDescription([
         DeclareLaunchArgument("use_joint_state_publisher", default_value="true"),
@@ -24,6 +25,14 @@ def generate_launch_description():
                 FindPackageShare("robot_description2"),
                 "urdf",
                 "dual_roarm.urdf.xacro",
+            ]),
+        ),
+        DeclareLaunchArgument(
+            "rviz_config",
+            default_value=PathJoinSubstitution([
+                FindPackageShare("robot_description2"),
+                "rviz",
+                "view.rviz",
             ]),
         ),
         Node(
@@ -56,6 +65,7 @@ def generate_launch_description():
         Node(
             package="rviz2",
             executable="rviz2",
+            arguments=["-d", rviz_config],
             condition=IfCondition(use_rviz),
             output="screen",
         ),

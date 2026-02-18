@@ -3,7 +3,7 @@ project(robot_description2)
 
 find_package(ament_cmake REQUIRED)
 
-install(DIRECTORY urdf launch rviz
+install(DIRECTORY urdf launch meshes rviz
   DESTINATION share/${PROJECT_NAME}
 )
 
