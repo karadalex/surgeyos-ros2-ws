@@ -10,7 +10,7 @@ def generate_launch_description():
             name='mounting_detection',
             output='screen',
             parameters=[
-                {'input_topic': '/image'},
+                {'input_topic': '/camera/image_raw'},
                 {'output_topic': '/image/processed'},
                 {'use_canny': True},
             ],
