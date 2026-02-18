@@ -6,10 +6,19 @@ SurgeyOS ROS2 Workspace
 
 (robot simulation still not working)
 
+Prepare the virtual environment:
+```bash
+python3 -m venv .venv
+sudo apt install -y python3-numpy
+pip install -r requirements.txt
+python -m pip install -U numpy
+source /home/robot/surgeyos-ros2-ws/.venv/bin/activate
+python -m pip install -U pip setuptools wheel
+python -m pip install -U catkin_pkg lark empy pyyaml packaging
+```
+
 ```bash
 source /opt/ros/${ROS_DISTRO}/setup.sh
-python3 -m venv .venv
-pip install -r requirements.txt
 sudo apt install -y ros-${ROS_DISTRO}-cv-bridge python3-opencv
 sudo apt install ros-rolling-xacro
 sudo apt install ros-rolling-joint-state-publisher ros-rolling-robot-state-publisher ros-rolling-rviz2
