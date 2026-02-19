@@ -7,15 +7,22 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_msgs REQUIRED)
 
 add_executable(tf_to_inverse src/tf_to_inverse.cpp)
 target_include_directories(tf_to_inverse PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 target_compile_features(tf_to_inverse PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+ament_target_dependencies(tf_to_inverse
+  rclcpp
+  sensor_msgs
+  tf2
+  tf2_msgs
+)
 
 install(TARGETS tf_to_inverse
   DESTINATION lib/${PROJECT_NAME})
