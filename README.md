@@ -169,3 +169,11 @@ colcon build --symlink-install --packages-select vision
 source install/setup.bash
 ros2 launch vision mounting_detection.launch.py
 ```
+
+## Stream ROS2 events with Foxglove (optional)
+
+```bash
+sudo apt install ros-$ROS_DISTRO-foxglove-bridge
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765
+```
+and connect to ws://<RASPBERRY_PI_IP>:8765 in the Foxglove app
