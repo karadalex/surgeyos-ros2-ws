@@ -50,7 +50,7 @@ def generate_launch_description():
             ),
             Node(
                 package="serial_ctrl",
-                executable="serial_ctrl_py",
+                executable="serial_ctrl",
                 output="screen",
             ),
             Node(
