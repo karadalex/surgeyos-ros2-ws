@@ -7,8 +7,6 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/joint_state.hpp"
-#include "tf2/LinearMath/Matrix3x3.h"
-#include "tf2/LinearMath/Quaternion.h"
 #include "tf2_msgs/msg/tf_message.hpp"
 
 class TfToInverseNode : public rclcpp::Node
@@ -122,16 +120,23 @@ private:
       const double y = tf.transform.translation.y;
       const double z = tf.transform.translation.z;
 
-      tf2::Quaternion q(
-        tf.transform.rotation.x,
-        tf.transform.rotation.y,
-        tf.transform.rotation.z,
-        tf.transform.rotation.w);
-      tf2::Matrix3x3 m(q);
-      double roll = 0.0;
-      double pitch = 0.0;
-      double yaw = 0.0;
-      m.getRPY(roll, pitch, yaw);
+      const double qx = tf.transform.rotation.x;
+      const double qy = tf.transform.rotation.y;
+      const double qz = tf.transform.rotation.z;
+      const double qw = tf.transform.rotation.w;
+
+      // Quaternion -> RPY (same axis convention used by tf2::Matrix3x3::getRPY)
+      const double sinr_cosp = 2.0 * (qw * qx + qy * qz);
+      const double cosr_cosp = 1.0 - 2.0 * (qx * qx + qy * qy);
+      const double roll = std::atan2(sinr_cosp, cosr_cosp);
+
+      const double sinp = 2.0 * (qw * qy - qz * qx);
+      constexpr double kHalfPi = 1.5707963267948966;
+      const double pitch = (std::abs(sinp) >= 1.0) ? std::copysign(kHalfPi, sinp) : std::asin(sinp);
+
+      const double siny_cosp = 2.0 * (qw * qz + qx * qy);
+      const double cosy_cosp = 1.0 - 2.0 * (qy * qy + qz * qz);
+      const double yaw = std::atan2(siny_cosp, cosy_cosp);
 
       (void)roll;
       (void)yaw;
