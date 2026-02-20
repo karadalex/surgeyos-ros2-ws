@@ -17,16 +17,8 @@ Main sections:
 - [Foxglove Bridge](docs/foxglove.md)
 - [Hardware](docs/hardware.md)
 
-## Run Docsify Locally
-
-If `docsify-cli` is installed:
+## Quickstart
 
 ```bash
-docsify serve docs
-```
-
-Or via npx:
-
-```bash
-npx docsify-cli serve docs
+ros2 launch surgery surgery.launch.py
 ```
