@@ -43,7 +43,7 @@ sudo apt install --reinstall -y \
 
 To run the simulation:
 ```bash
-ros2 launch robot_description display.launch.py use_rviz:=true
+ros2 launch robot_description1 display.launch.py use_rviz:=true
 ```
 
 ### To prepare the raspberry pi:
