@@ -1970,12 +1970,12 @@
       </geometry>
     </collision>
   </link>
-  <!-- Joint from leadscrew to z_axis_base -->
+  <!-- Joint from z_axis_base to leadscrew -->
   <joint name="z" type="prismatic">
-    <origin xyz="-0.119811 0.0001886 -0.823885" rpy="0 0 -0.0105398"/>
-    <parent link="leadscrew"/>
-    <child link="z_axis_base"/>
-    <axis xyz="0 0 1"/>
+    <origin xyz="0.119802 -0.00145135 0.823885" rpy="0 0 0.0105398"/>
+    <parent link="z_axis_base"/>
+    <child link="leadscrew"/>
+    <axis xyz="0 0 -1"/>
     <limit effort="10" velocity="10" lower="-1" upper="1"/>
   </joint>
   <!-- Link axis1_2 -->
@@ -2554,13 +2554,11 @@
     <axis xyz="0 0 1"/>
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
-  <!-- Joint from axis1 to leadscrew -->
-  <joint name="arm1" type="revolute">
-    <origin xyz="0.243812 -0.919886 1.65898" rpy="3.14159 0 1.5708"/>
-    <parent link="axis1"/>
-    <child link="leadscrew"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
+  <!-- Joint from leadscrew to axis1 -->
+  <joint name="arm1" type="fixed">
+    <origin xyz="0.919921 -0.241288 1.65898" rpy="3.14159 0 1.5708"/>
+    <parent link="leadscrew"/>
+    <child link="axis1"/>
   </joint>
   <!-- Link axis2_4 -->
   <link name="axis2_4">
@@ -2722,13 +2720,13 @@
     <axis xyz="0 0 1"/>
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
-  <!-- Joint from body to axis1 -->
-  <joint name="extra_root_1_to_axis1" type="fixed">
-    <origin xyz="0 0 0" rpy="0 -0 0"/>
-    <parent link="body"/>
-    <child link="axis1"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10"/>
+  <!-- Joint from gantry_column to z_axis_base -->
+  <joint name="extra_root_1_to_axis1" type="prismatic">
+    <origin xyz="0.243999 -1.0397 2.48287" rpy="3.14159 0 1.58134"/>
+    <parent link="gantry_column"/>
+    <child link="z_axis_base"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="10" velocity="10" lower="-1" upper="1"/>
   </joint>
   <!-- Link gantry_column -->
   <link name="gantry_column">
@@ -5683,11 +5681,11 @@
     </collision>
   </link>
   <!-- Joint from body to gantry_column -->
-  <joint name="extra_root_2_to_gantry_column" type="fixed">
+  <joint name="extra_root_2_to_gantry_column" type="prismatic">
     <origin xyz="0 0 0" rpy="0 -0 0"/>
     <parent link="body"/>
     <child link="gantry_column"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="10" velocity="10"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="10" velocity="10" lower="-1" upper="1"/>
   </joint>
 </robot>
