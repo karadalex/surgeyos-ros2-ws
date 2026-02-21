@@ -17,10 +17,12 @@ public:
   {
     this->declare_parameter<std::string>("base_frame", "world");
     this->declare_parameter<std::string>("target_frame", "target");
+    this->declare_parameter<std::string>("joint_prefix", "");
     this->declare_parameter<bool>("elbow_up", false);
 
     base_frame_ = this->get_parameter("base_frame").as_string();
     target_frame_ = this->get_parameter("target_frame").as_string();
+    joint_prefix_ = this->get_parameter("joint_prefix").as_string();
     elbow_up_ = this->get_parameter("elbow_up").as_bool();
 
     joint_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("/joint_states", 10);
@@ -54,8 +56,19 @@ private:
   {
     constexpr double kShoulderRadius = 0.041051;  // L1_to_L2 origin y
     constexpr double kShoulderHeight = 0.062 + 0.0534;  // base_to_L1 + L1_to_L2 origin z
-    constexpr double kUpperArm = std::sqrt(0.119401 * 0.119401 + 0.119401 * 0.119401);  // L2_to_L3
-    constexpr double kForearm = std::sqrt(0.090485 * 0.090485 + 0.090455 * 0.090455);  // L3_to_L4
+    constexpr double kUpperArmY = 0.119401;  // L2_to_L3 origin y
+    constexpr double kUpperArmZ = 0.119401;  // L2_to_L3 origin z
+    constexpr double kForearmY = 0.090485;  // L3_to_L4 origin y
+    constexpr double kForearmZ = 0.090455;  // L3_to_L4 origin z
+
+    constexpr double kUpperArm = std::sqrt(kUpperArmY * kUpperArmY + kUpperArmZ * kUpperArmZ);
+    constexpr double kForearm = std::sqrt(kForearmY * kForearmY + kForearmZ * kForearmZ);
+
+    // In this URDF, link vectors are not aligned with +Y only; they include fixed +Z offsets.
+    // Convert to a standard 2-link planar IK by accounting for these static link direction angles.
+    constexpr double kUpperArmAngleOffset = std::atan2(kUpperArmZ, kUpperArmY);
+    constexpr double kForearmAngleOffset = std::atan2(kForearmZ, kForearmY);
+    constexpr double kElbowAngleOffset = kForearmAngleOffset - kUpperArmAngleOffset;
 
     // Joint limits from roarm/urdf/roarm.urdf
     constexpr double q1_min = -3.14;
@@ -74,21 +87,27 @@ private:
     const double vertical = z - kShoulderHeight;
 
     const double dist = std::hypot(radial, vertical);
-    if (dist < 1e-6) {
+    if (dist < 1e-9) {
       return false;
     }
 
-    double c3 = (dist * dist - kUpperArm * kUpperArm - kForearm * kForearm) /
+    const double c3_raw = (dist * dist - kUpperArm * kUpperArm - kForearm * kForearm) /
       (2.0 * kUpperArm * kForearm);
-    c3 = clamp(c3, -1.0, 1.0);
-    double q3 = std::acos(c3);
-    if (elbow_up_) {
-      q3 = -q3;
+    if (c3_raw < -1.0 - 1e-9 || c3_raw > 1.0 + 1e-9) {
+      return false;  // out of reachable workspace
     }
+    const double c3 = clamp(c3_raw, -1.0, 1.0);
 
-    const double k1 = kUpperArm + kForearm * std::cos(q3);
-    const double k2 = kForearm * std::sin(q3);
-    const double q2 = std::atan2(vertical, radial) - std::atan2(k2, k1);
+    // Standard 2-link elbow angle in transformed coordinates.
+    const double q3_trans = elbow_up_ ? -std::acos(c3) : std::acos(c3);
+
+    const double k1 = kUpperArm + kForearm * std::cos(q3_trans);
+    const double k2 = kForearm * std::sin(q3_trans);
+    const double q2_trans = std::atan2(vertical, radial) - std::atan2(k2, k1);
+
+    // Map transformed solution back to URDF joint angles.
+    const double q2 = q2_trans - kUpperArmAngleOffset;
+    const double q3 = q3_trans - kElbowAngleOffset;
 
     // Use target pitch if provided by TF orientation; otherwise compensates links.
     const double q4 = target_pitch - (q2 + q3);
@@ -152,11 +171,11 @@ private:
       sensor_msgs::msg::JointState js;
       js.header.stamp = this->now();
       js.name = {
-        "base_to_L1",
-        "L1_to_L2",
-        "L2_to_L3",
-        "L3_to_L4",
-        "L4_to_L5_1_A"
+        joint_prefix_ + "base_to_L1",
+        joint_prefix_ + "L1_to_L2",
+        joint_prefix_ + "L2_to_L3",
+        joint_prefix_ + "L3_to_L4",
+        joint_prefix_ + "L4_to_L5_1_A"
       };
       js.position.assign(joints.begin(), joints.end());
       joint_pub_->publish(js);
@@ -166,6 +185,7 @@ private:
 
   std::string base_frame_;
   std::string target_frame_;
+  std::string joint_prefix_;
   bool elbow_up_{false};
 
   rclcpp::Subscription<tf2_msgs::msg::TFMessage>::SharedPtr tf_sub_;
