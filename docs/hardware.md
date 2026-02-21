@@ -1,5 +1,7 @@
 # Hardware
 
+![](./_images/v3-simple-gantry.png)
+
 ## Workspace Hardware Notes
 
 This page is reserved for robot hardware wiring, pinout, and actuator configuration.

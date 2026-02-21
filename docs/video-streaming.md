@@ -1,5 +1,7 @@
 # Video Streaming
 
+![](./_images/mounting-detection.png)
+
 Stream camera feeds to another machine on the same network without requiring ROS2 on the client.
 
 ## Install Components

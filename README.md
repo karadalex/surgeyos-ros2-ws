@@ -1,6 +1,9 @@
 # SurgeyOS ROS2 Workspace
 
-This repository now uses a Docsify documentation site under `docs/`.
+SurgeyOS: Surgery Operating System, an Experimental research surgery robotics
+
+![image1](./docs/_images/mounting-detection.png)
+![](./docs/_images/v3-simple-gantry.png)
 
 ## Documentation
 
