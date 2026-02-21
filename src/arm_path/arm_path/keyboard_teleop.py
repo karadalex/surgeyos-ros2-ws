@@ -20,10 +20,18 @@ class KeyboardTeleop(Node):
         self.declare_parameter('rate_hz', 30.0)
         self.declare_parameter('step_xy_m', 0.01)
         self.declare_parameter('step_z_m', 0.01)
-        self.declare_parameter('start_x_m', 0.18)
-        self.declare_parameter('start_y_m', 0.00)
+        # RoArm zero yaw points along +Y in URDF, so start "in front" of the base.
+        # Starting near y=0 creates unintuitive XY behavior around a yaw singular line.
+        self.declare_parameter('start_x_m', 0.00)
+        self.declare_parameter('start_y_m', 0.20)
         self.declare_parameter('start_z_m', 0.18)
         self.declare_parameter('pitch_rad', 0.0)
+        self.declare_parameter('x_min_m', -0.30)
+        self.declare_parameter('x_max_m', 0.30)
+        self.declare_parameter('y_min_m', -0.30)
+        self.declare_parameter('y_max_m', 0.40)
+        self.declare_parameter('z_min_m', 0.02)
+        self.declare_parameter('z_max_m', 0.40)
 
         self.frame_id = str(self.get_parameter('frame_id').value)
         self.child_frame_id = str(self.get_parameter('child_frame_id').value)
@@ -33,6 +41,12 @@ class KeyboardTeleop(Node):
         self.y = float(self.get_parameter('start_y_m').value)
         self.z = float(self.get_parameter('start_z_m').value)
         self.pitch = float(self.get_parameter('pitch_rad').value)
+        self.x_min = float(self.get_parameter('x_min_m').value)
+        self.x_max = float(self.get_parameter('x_max_m').value)
+        self.y_min = float(self.get_parameter('y_min_m').value)
+        self.y_max = float(self.get_parameter('y_max_m').value)
+        self.z_min = float(self.get_parameter('z_min_m').value)
+        self.z_max = float(self.get_parameter('z_max_m').value)
 
         self.pub = self.create_publisher(TFMessage, '/tf', 10)
 
@@ -53,6 +67,11 @@ class KeyboardTeleop(Node):
 
     def _log_pose(self):
         self.get_logger().info(f'target xyz = ({self.x:.3f}, {self.y:.3f}, {self.z:.3f})')
+
+    def _clamp_pose(self):
+        self.x = max(self.x_min, min(self.x, self.x_max))
+        self.y = max(self.y_min, min(self.y, self.y_max))
+        self.z = max(self.z_min, min(self.z, self.z_max))
 
     def _read_key(self):
         if self._saved_terminal is None:
@@ -98,6 +117,7 @@ class KeyboardTeleop(Node):
             raise KeyboardInterrupt
 
         if changed:
+            self._clamp_pose()
             self._log_pose()
 
     def _publish_target_tf(self):
