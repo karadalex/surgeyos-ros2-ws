@@ -1,11 +1,15 @@
 import rclpy
 from rclpy.node import Node
-
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-
 import cv2
 import numpy as np
+from vision.utils import *
+
+
+blueColor = (255,0,0)
+greenColor = (0,255,0)
+redColor = (0,0,255)
 
 
 class MountingDetection(Node):
@@ -39,6 +43,9 @@ class MountingDetection(Node):
             frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
             out = frame.copy()
 
+            ####################################################################
+            # Find the green mounting dock
+            ####################################################################
             # Segment green regions in HSV space.
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             lower_green = np.array([35, 50, 40], dtype=np.uint8)
@@ -72,6 +79,74 @@ class MountingDetection(Node):
             obj_mask = np.zeros(green_mask.shape, dtype=np.uint8)
             cv2.drawContours(obj_mask, [obj], -1, 255, thickness=cv2.FILLED)
 
+            ####################################################################
+            # Find the black robotic arm
+            ####################################################################
+            # Detect black object (assuming roarm robotic arm)
+            lower_black = np.array([0, 0, 0], dtype=np.uint8)
+            upper_black = np.array([200, 255, 100], dtype=np.uint8)  # tune V upper bound
+            black_mask = cv2.inRange(hsv, lower_black, upper_black)
+
+            kernel = np.ones((2, 2), np.uint8)
+            black_mask = cv2.morphologyEx(black_mask, cv2.MORPH_OPEN, kernel, iterations=1)
+            black_mask = cv2.morphologyEx(black_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
+
+            black_contours, _ = cv2.findContours(
+                black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+            )
+
+            mask = np.zeros(out.shape[:2], dtype=np.uint8)
+            mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((10,10), np.uint8))
+            cv2.drawContours(mask, black_contours, -1, 255, thickness=cv2.FILLED)  # union fill
+            union_black_contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            # union_contours now are merged outer contours
+
+            max_black_contour_area = 0
+            max_black_contour = None
+            for c in union_black_contours:
+                if cv2.contourArea(c) < 300:   # tune area threshold
+                    continue
+                if cv2.contourArea(c) > max_black_contour_area:
+                    max_black_contour_area = cv2.contourArea(c)
+                    max_black_contour = c
+                cv2.drawContours(out, [c], -1, (255, 0, 255), 2)  # magenta outline
+
+            ####################################################################
+            # Find the robotic arm center of mass and pose and move towards gripper
+            ####################################################################
+            black_pts, black_mask = points_inside_contour(max_black_contour, out.shape[:2])
+            cm = np.mean(black_pts, axis=0).astype(int)
+
+            # Correct the orientation vector direction to point towards the gripper (assuming gripper is on the right side of the arm)
+            # contour: Nx1x2
+            ellipse = cv2.fitEllipse(max_black_contour)
+            (cx, cy), (w, h), angle_deg = ellipse   # center, axes, rotation
+
+            # major-axis direction
+            theta = np.deg2rad(angle_deg)
+            ux, uy = np.cos(theta), np.sin(theta)
+
+            # if OpenCV returns swapped axes, rotate 90 deg
+            if h > w:
+                ux, uy = -np.sin(theta), np.cos(theta)
+
+            # shift center toward one side (e.g. +major direction)
+            shift = 0.45 * max(w, h)   # 25% of major axis length (tune)
+            new_cx = cx - shift * ux
+            new_cy = cy - shift * uy
+
+            new_center = (int(new_cx), int(new_cy))
+
+            a, b = orientationVectors(black_pts)
+            a = new_center + a
+            b = new_center + b
+            cv2.arrowedLine(out, (new_center[0],new_center[1]), (a[0], a[1]), redColor, 2, 8, 0, 0.1)
+            cv2.arrowedLine(out, (new_center[0],new_center[1]), (b[0], b[1]), greenColor, 2, 8, 0, 0.1)
+            cv2.circle(out, tuple(new_center), 5, (255, 255, 0), -1)  # magenta center of mass
+
+            ####################################################################
+            # Find the mounting dock holes
+            ####################################################################
             # Holes appear as non-green islands inside the green object.
             holes_mask = cv2.bitwise_and(cv2.bitwise_not(green_mask), obj_mask)
             holes_mask = cv2.morphologyEx(holes_mask, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
@@ -106,6 +181,10 @@ class MountingDetection(Node):
                 2,
                 cv2.LINE_AA,
             )
+
+            ####################################################################
+            # Publish image feed and calculated center of mass
+            ####################################################################
 
             # Convert OpenCV -> ROS Image
             out_msg = self.bridge.cv2_to_imgmsg(out, encoding='bgr8')
