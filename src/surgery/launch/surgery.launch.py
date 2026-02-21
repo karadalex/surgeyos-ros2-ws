@@ -8,6 +8,7 @@ from launch.conditions import IfCondition
 
 
 def generate_launch_description():
+    use_robot_description2_display = LaunchConfiguration("use_robot_description2_display", default="false")
     use_joint_state_publisher = LaunchConfiguration("use_joint_state_publisher", default="true")
     use_rviz = LaunchConfiguration("use_rviz", default="")
     use_software_gl = LaunchConfiguration("use_software_gl", default="true")
@@ -24,13 +25,16 @@ def generate_launch_description():
             "use_rviz": use_rviz,
             "use_software_gl": use_software_gl,
         }.items(),
+        condition=IfCondition(use_robot_description2_display)
     )
 
     return LaunchDescription(
         [
+            DeclareLaunchArgument("use_robot_description2_display", default_value="false"),
             DeclareLaunchArgument("use_joint_state_publisher", default_value="true"),
             DeclareLaunchArgument("use_rviz", default_value="true"),
             DeclareLaunchArgument("use_software_gl", default_value="true"),
+            DeclareLaunchArgument("use_web_video_server", default_value="true"),
             robot_description2_display,
             Node(
                 package="camera_ros",
