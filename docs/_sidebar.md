@@ -1,4 +1,4 @@
-- [Overview](/)
+- [Overview](README.md)
 - Setup
   - [Getting Started](getting-started.md)
   - [Simulation](simulation.md)
