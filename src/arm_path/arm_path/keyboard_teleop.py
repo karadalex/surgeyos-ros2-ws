@@ -37,9 +37,12 @@ class KeyboardTeleop(Node):
         self.child_frame_id = str(self.get_parameter('child_frame_id').value)
         self.step_xy = float(self.get_parameter('step_xy_m').value)
         self.step_z = float(self.get_parameter('step_z_m').value)
-        self.x = float(self.get_parameter('start_x_m').value)
-        self.y = float(self.get_parameter('start_y_m').value)
-        self.z = float(self.get_parameter('start_z_m').value)
+        self.start_x = float(self.get_parameter('start_x_m').value)
+        self.start_y = float(self.get_parameter('start_y_m').value)
+        self.start_z = float(self.get_parameter('start_z_m').value)
+        self.x = self.start_x
+        self.y = self.start_y
+        self.z = self.start_z
         self.pitch = float(self.get_parameter('pitch_rad').value)
         self.x_min = float(self.get_parameter('x_min_m').value)
         self.x_max = float(self.get_parameter('x_max_m').value)
@@ -61,7 +64,7 @@ class KeyboardTeleop(Node):
             self.get_logger().warn('stdin is not a TTY; keyboard input disabled.')
 
         self.get_logger().info(
-            'Keyboard teleop started: arrows=XY, w=+Z, a=-Z, q=quit'
+            'Keyboard teleop started: arrows=XY, w=+Z, a=-Z, q=quit, 0=initial pose'
         )
         self._log_pose()
 
@@ -111,6 +114,11 @@ class KeyboardTeleop(Node):
             changed = True
         elif key == 'a':
             self.z -= self.step_z
+            changed = True
+        elif key == '0':
+            self.x = self.start_x
+            self.y = self.start_y
+            self.z = self.start_z
             changed = True
         elif key == 'q':
             self.get_logger().info('Quit requested by keyboard.')
