@@ -82,7 +82,9 @@ private:
     constexpr double q5_min = -1.57;
     constexpr double q5_max = 0.0;
 
-    const double q1 = std::atan2(y, x);
+    // In URDF, q1=0 points the arm along +Y (not +X). For planar direction:
+    // [x y]^T = r * [-sin(q1), cos(q1)]^T
+    const double q1 = std::atan2(-x, y);
     const double radial = std::hypot(x, y) - kShoulderRadius;
     const double vertical = z - kShoulderHeight;
 
