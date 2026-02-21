@@ -1,11 +1,15 @@
 import rclpy
 from rclpy.node import Node
-
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-
 import cv2
 import numpy as np
+from vision.utils import *
+
+
+blueColor = (255,0,0)
+greenColor = (0,255,0)
+redColor = (0,0,255)
 
 
 class MountingDetection(Node):
@@ -39,6 +43,9 @@ class MountingDetection(Node):
             frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
             out = frame.copy()
 
+            ####################################################################
+            # Find the green mounting dock
+            ####################################################################
             # Segment green regions in HSV space.
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             lower_green = np.array([35, 50, 40], dtype=np.uint8)
@@ -72,6 +79,9 @@ class MountingDetection(Node):
             obj_mask = np.zeros(green_mask.shape, dtype=np.uint8)
             cv2.drawContours(obj_mask, [obj], -1, 255, thickness=cv2.FILLED)
 
+            ####################################################################
+            # Find the black robotic arm
+            ####################################################################
             # Detect black object (assuming roarm robotic arm)
             lower_black = np.array([0, 0, 0], dtype=np.uint8)
             upper_black = np.array([200, 255, 100], dtype=np.uint8)  # tune V upper bound
@@ -101,6 +111,21 @@ class MountingDetection(Node):
                     max_black_contour = c
                 cv2.drawContours(out, [c], -1, (255, 0, 255), 2)  # magenta outline
 
+            ####################################################################
+            # Find the robotic arm center of mass
+            ####################################################################
+            black_pts, black_mask = points_inside_contour(max_black_contour, out.shape[:2])
+            cm = np.mean(black_pts, axis=0).astype(int)
+            a,b = orientationVectors(black_pts)
+            a = cm + a
+            b = cm + b
+            cv2.arrowedLine(out, (cm[0],cm[1]), (a[0], a[1]), redColor, 2, 8, 0, 0.1)
+            cv2.arrowedLine(out, (cm[0],cm[1]), (b[0], b[1]), greenColor, 2, 8, 0, 0.1)
+            cv2.circle(out, tuple(cm), 5, (255, 255, 0), -1)  # magenta center of mass
+
+            ####################################################################
+            # Find the mounting dock holes
+            ####################################################################
             # Holes appear as non-green islands inside the green object.
             holes_mask = cv2.bitwise_and(cv2.bitwise_not(green_mask), obj_mask)
             holes_mask = cv2.morphologyEx(holes_mask, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
