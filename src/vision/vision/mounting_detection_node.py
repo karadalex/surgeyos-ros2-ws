@@ -112,16 +112,37 @@ class MountingDetection(Node):
                 cv2.drawContours(out, [c], -1, (255, 0, 255), 2)  # magenta outline
 
             ####################################################################
-            # Find the robotic arm center of mass
+            # Find the robotic arm center of mass and pose and move towards gripper
             ####################################################################
             black_pts, black_mask = points_inside_contour(max_black_contour, out.shape[:2])
             cm = np.mean(black_pts, axis=0).astype(int)
-            a,b = orientationVectors(black_pts)
-            a = cm + a
-            b = cm + b
-            cv2.arrowedLine(out, (cm[0],cm[1]), (a[0], a[1]), redColor, 2, 8, 0, 0.1)
-            cv2.arrowedLine(out, (cm[0],cm[1]), (b[0], b[1]), greenColor, 2, 8, 0, 0.1)
-            cv2.circle(out, tuple(cm), 5, (255, 255, 0), -1)  # magenta center of mass
+
+            # Correct the orientation vector direction to point towards the gripper (assuming gripper is on the right side of the arm)
+            # contour: Nx1x2
+            ellipse = cv2.fitEllipse(max_black_contour)
+            (cx, cy), (w, h), angle_deg = ellipse   # center, axes, rotation
+
+            # major-axis direction
+            theta = np.deg2rad(angle_deg)
+            ux, uy = np.cos(theta), np.sin(theta)
+
+            # if OpenCV returns swapped axes, rotate 90 deg
+            if h > w:
+                ux, uy = -np.sin(theta), np.cos(theta)
+
+            # shift center toward one side (e.g. +major direction)
+            shift = 0.45 * max(w, h)   # 25% of major axis length (tune)
+            new_cx = cx - shift * ux
+            new_cy = cy - shift * uy
+
+            new_center = (int(new_cx), int(new_cy))
+
+            a, b = orientationVectors(black_pts)
+            a = new_center + a
+            b = new_center + b
+            cv2.arrowedLine(out, (new_center[0],new_center[1]), (a[0], a[1]), redColor, 2, 8, 0, 0.1)
+            cv2.arrowedLine(out, (new_center[0],new_center[1]), (b[0], b[1]), greenColor, 2, 8, 0, 0.1)
+            cv2.circle(out, tuple(new_center), 5, (255, 255, 0), -1)  # magenta center of mass
 
             ####################################################################
             # Find the mounting dock holes
@@ -160,6 +181,10 @@ class MountingDetection(Node):
                 2,
                 cv2.LINE_AA,
             )
+
+            ####################################################################
+            # Publish image feed and calculated center of mass
+            ####################################################################
 
             # Convert OpenCV -> ROS Image
             out_msg = self.bridge.cv2_to_imgmsg(out, encoding='bgr8')
