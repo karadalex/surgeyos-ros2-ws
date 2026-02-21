@@ -72,6 +72,35 @@ class MountingDetection(Node):
             obj_mask = np.zeros(green_mask.shape, dtype=np.uint8)
             cv2.drawContours(obj_mask, [obj], -1, 255, thickness=cv2.FILLED)
 
+            # Detect black object (assuming roarm robotic arm)
+            lower_black = np.array([0, 0, 0], dtype=np.uint8)
+            upper_black = np.array([200, 255, 100], dtype=np.uint8)  # tune V upper bound
+            black_mask = cv2.inRange(hsv, lower_black, upper_black)
+
+            kernel = np.ones((2, 2), np.uint8)
+            black_mask = cv2.morphologyEx(black_mask, cv2.MORPH_OPEN, kernel, iterations=1)
+            black_mask = cv2.morphologyEx(black_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
+
+            black_contours, _ = cv2.findContours(
+                black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+            )
+
+            mask = np.zeros(out.shape[:2], dtype=np.uint8)
+            mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((10,10), np.uint8))
+            cv2.drawContours(mask, black_contours, -1, 255, thickness=cv2.FILLED)  # union fill
+            union_black_contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            # union_contours now are merged outer contours
+
+            max_black_contour_area = 0
+            max_black_contour = None
+            for c in union_black_contours:
+                if cv2.contourArea(c) < 300:   # tune area threshold
+                    continue
+                if cv2.contourArea(c) > max_black_contour_area:
+                    max_black_contour_area = cv2.contourArea(c)
+                    max_black_contour = c
+                cv2.drawContours(out, [c], -1, (255, 0, 255), 2)  # magenta outline
+
             # Holes appear as non-green islands inside the green object.
             holes_mask = cv2.bitwise_and(cv2.bitwise_not(green_mask), obj_mask)
             holes_mask = cv2.morphologyEx(holes_mask, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
