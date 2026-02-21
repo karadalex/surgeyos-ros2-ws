@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'path_planner1 = arm_path.path_planner1:main'
+            'path_planner_wave = arm_path.path_planner_wave:main'
         ],
     },
 )
