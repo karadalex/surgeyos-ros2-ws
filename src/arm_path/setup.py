@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'path_planner_wave = arm_path.path_planner_wave:main'
+            'path_planner_wave = arm_path.path_planner_wave:main',
+            'keyboard_teleop = arm_path.keyboard_teleop:main',
         ],
     },
 )
