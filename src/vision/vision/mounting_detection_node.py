@@ -1,6 +1,8 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
+from geometry_msgs.msg import TransformStamped
+from tf2_msgs.msg import TFMessage
 from cv_bridge import CvBridge
 import cv2
 import numpy as np
@@ -18,10 +20,15 @@ class MountingDetection(Node):
 
         self.declare_parameter('input_topic', '/camera/image_raw')
         self.declare_parameter('output_topic', '/image/processed')
+        self.declare_parameter('tf_parent_frame', 'camera_link')
+        self.declare_parameter('tf_child_frame', 'vision_target')
         self.declare_parameter('min_hole_area_px', 60.0)
+        self.declare_parameter('meters_per_pixel', 0.001)
 
         input_topic = self.get_parameter('input_topic').get_parameter_value().string_value
         output_topic = self.get_parameter('output_topic').get_parameter_value().string_value
+        self.tf_parent_frame = self.get_parameter('tf_parent_frame').get_parameter_value().string_value
+        self.tf_child_frame = self.get_parameter('tf_child_frame').get_parameter_value().string_value
 
         self.bridge = CvBridge()
 
@@ -33,9 +40,13 @@ class MountingDetection(Node):
         )
 
         self.pub = self.create_publisher(Image, output_topic, 10)
+        self.tf_pub = self.create_publisher(TFMessage, '/tf', 10)
 
         self.get_logger().info(f"Subscribed to: {input_topic}")
         self.get_logger().info(f"Publishing to: {output_topic}")
+        self.get_logger().info(
+            f"Publishing vision offset TF on /tf: {self.tf_parent_frame} -> {self.tf_child_frame}"
+        )
 
     def on_image(self, msg: Image):
         try:
@@ -181,6 +192,29 @@ class MountingDetection(Node):
                 2,
                 cv2.LINE_AA,
             )
+
+            # Calculate distance from arm center to camera center
+            dx = new_cx - frame.shape[1] / 2
+            dy = new_cy - frame.shape[0] / 2
+            distance = np.sqrt(dx**2 + dy**2)
+
+            # Publish XY correction as a TF translation (camera frame -> vision target).
+            # Visual servoing controller will move the arm to reduce the offset to zero.
+            meters_per_pixel = self.get_parameter(
+                'meters_per_pixel'
+            ).get_parameter_value().double_value
+            t = TransformStamped()
+            t.header.stamp = msg.header.stamp
+            t.header.frame_id = self.tf_parent_frame
+            t.child_frame_id = self.tf_child_frame
+            t.transform.translation.x = float(-dx * meters_per_pixel)
+            t.transform.translation.y = float(-dy * meters_per_pixel)
+            t.transform.translation.z = float(distance * meters_per_pixel)
+            t.transform.rotation.x = 0.0
+            t.transform.rotation.y = 0.0
+            t.transform.rotation.z = 0.0
+            t.transform.rotation.w = 1.0
+            self.tf_pub.publish(TFMessage(transforms=[t]))
 
             ####################################################################
             # Publish image feed and calculated center of mass
