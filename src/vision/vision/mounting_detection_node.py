@@ -193,9 +193,17 @@ class MountingDetection(Node):
                 cv2.LINE_AA,
             )
 
-            # Calculate distance from arm center to camera center
-            dx = new_cx - frame.shape[1] / 2
-            dy = new_cy - frame.shape[0] / 2
+            # Calculate distance from arm center to hole center in pixel space
+            max_hole_contour_area = 0
+            max_hole_contour = None
+            for c in hole_contours:
+                if cv2.contourArea(c) > max_hole_contour_area:
+                    max_hole_contour_area = cv2.contourArea(c)
+                    max_hole_contour = c
+            hole_cm = np.mean(max_hole_contour, axis=0).astype(int)
+
+            dx = new_cx - hole_cm[0]
+            dy = new_cy - hole_cm[1]
             distance = np.sqrt(dx**2 + dy**2)
 
             # Publish XY correction as a TF translation (camera frame -> vision target).
