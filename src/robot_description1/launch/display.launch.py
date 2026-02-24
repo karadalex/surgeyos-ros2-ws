@@ -22,7 +22,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "model",
             default_value=PathJoinSubstitution([
-                FindPackageShare("robot_description"),
+                FindPackageShare("robot_description1"),
                 "urdf",
                 "robot.urdf.xacro",
             ]),
@@ -30,7 +30,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "rviz_config",
             default_value=PathJoinSubstitution([
-                FindPackageShare("robot_description"),
+                FindPackageShare("robot_description1"),
                 "rviz",
                 "view.rviz",
             ]),
@@ -40,7 +40,7 @@ def generate_launch_description():
             executable="robot_state_publisher",
             output="screen",
             parameters=[{
-                "robot_description": ParameterValue(
+                "robot_description1": ParameterValue(
                     Command([FindExecutable(name="xacro"), " ", model]),
                     value_type=str,
                 ),
