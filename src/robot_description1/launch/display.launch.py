@@ -40,7 +40,7 @@ def generate_launch_description():
             executable="robot_state_publisher",
             output="screen",
             parameters=[{
-                "robot_description1": ParameterValue(
+                "robot_description": ParameterValue(
                     Command([FindExecutable(name="xacro"), " ", model]),
                     value_type=str,
                 ),
