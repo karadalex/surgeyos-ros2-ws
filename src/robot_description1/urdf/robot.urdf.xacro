@@ -2,6 +2,8 @@
 <!-- Generated using onshape-to-robot -->
 <!-- Onshape https://cad.onshape.com/documents/a2e4d90d4720e7eb81b47647/w/f29fb00f1617a93c8228a45a/e/5adbd4e56813ca0b03de2f98 -->
 <robot name="onshape-to-robot">
+  <!-- Explicit world frame so RViz Fixed Frame 'world' resolves -->
+  <link name="world"/>
   <!-- Link body -->
   <link name="body">
     <inertial>
@@ -1194,6 +1196,12 @@
       </geometry>
     </collision>
   </link>
+  <!-- Anchor the robot model to world -->
+  <joint name="world_to_body" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="world"/>
+    <child link="body"/>
+  </joint>
   <!-- Link axis1 -->
   <link name="axis1">
     <inertial>
