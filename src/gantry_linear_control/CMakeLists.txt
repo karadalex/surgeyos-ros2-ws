@@ -21,9 +21,24 @@ install(DIRECTORY launch
 # Allow downstream use of generated interfaces
 ament_export_dependencies(rosidl_default_runtime)
 
-# Install the Python module package (folder: gantry_linear_control/)
-# IMPORTANT: Call this ONCE and do NOT add_subdirectory() the module folder.
-# ament_python_install_package(${PROJECT_NAME})
+# Install Python nodes as ROS 2 executables.
+install(PROGRAMS
+  nodes/serial_driver_node.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME serial_driver_node
+)
+
+install(PROGRAMS
+  nodes/linear_action_server.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME linear_action_server
+)
+
+install(PROGRAMS
+  nodes/xyz_path_planner.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME xyz_path_planner
+)
 
 # Install launch files if present
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/launch")

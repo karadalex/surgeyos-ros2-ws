@@ -18,6 +18,11 @@
       </geometry>
       <material name="gray"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="1.0 0.5 0.02"/>
+      </geometry>
+    </collision>
   </link>
   <joint name="world_to_mounting_plate" type="fixed">
     <parent link="world"/>
@@ -34,6 +39,12 @@
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <material name="gray"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/base.stl"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </collision>
     </link>
 
     <joint name="${prefix}world_to_base" type="fixed">
@@ -50,6 +61,12 @@
         <origin rpy="0 0 0" xyz="0 0 -0.062"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L1.stl"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 -0.062"/>
+      </collision>
     </link>
 
     <link name="${prefix}l2_link">
@@ -60,6 +77,12 @@
         <origin rpy="0 0 0" xyz="0 -0.041051 -0.11574"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L2.stl"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 -0.041051 -0.11574"/>
+      </collision>
     </link>
 
     <link name="${prefix}l3_link">
@@ -70,6 +93,12 @@
         <origin rpy="0 0 0" xyz="0 -0.160452 -0.235141"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L3.stl"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 -0.160452 -0.235141"/>
+      </collision>
     </link>
 
     <link name="${prefix}l4_link">
@@ -80,6 +109,12 @@
         <origin rpy="0 0 0" xyz="0 -0.250907 -0.325596"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L4.stl"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 -0.250907 -0.325596"/>
+      </collision>
     </link>
 
     <link name="${prefix}l5_1_A_link">
@@ -90,6 +125,12 @@
         <origin xyz="-0.003489 -0.311007 -0.358744" rpy="0 0 0"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L5_1_A.stl"/>
+        </geometry>
+        <origin xyz="-0.003489 -0.311007 -0.358744" rpy="0 0 0"/>
+      </collision>
     </link>
 
     <link name="${prefix}l5_1_B_link">
@@ -100,6 +141,12 @@
         <origin xyz="-0.024489 -0.311007 -0.358744" rpy="0 0 0"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L5_1_B.stl"/>
+        </geometry>
+        <origin xyz="-0.024489 -0.311007 -0.358744" rpy="0 0 0"/>
+      </collision>
     </link>
 
     <link name="${prefix}l5_2_A_link">
@@ -110,6 +157,12 @@
         <origin xyz="0.017511 -0.285551 -0.362001" rpy="0 0 0"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L5_2_A.stl"/>
+        </geometry>
+        <origin xyz="0.017511 -0.285551 -0.362001" rpy="0 0 0"/>
+      </collision>
     </link>
 
     <link name="${prefix}l5_2_B_link">
@@ -120,6 +173,12 @@
         <origin xyz="-0.045489 -0.285551 -0.362001" rpy="0 0 0"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L5_2_B.stl"/>
+        </geometry>
+        <origin xyz="-0.045489 -0.285551 -0.362001" rpy="0 0 0"/>
+      </collision>
     </link>
 
     <link name="${prefix}l5_3_A_link">
@@ -130,6 +189,12 @@
         <origin xyz="0.039711 -0.304219 -0.347532" rpy="0 0 0"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L5_3_A.stl"/>
+        </geometry>
+        <origin xyz="0.039711 -0.304219 -0.347532" rpy="0 0 0"/>
+      </collision>
     </link>
 
     <link name="${prefix}l5_3_B_link">
@@ -140,6 +205,12 @@
         <origin xyz="-0.067689 -0.304219 -0.347532" rpy="0 0 0"/>
         <material name="white"/>
       </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://roarm/meshes/L5_3_B.stl"/>
+        </geometry>
+        <origin xyz="-0.067689 -0.304219 -0.347532" rpy="0 0 0"/>
+      </collision>
     </link>
 
     <joint name="${prefix}base_to_L1" type="revolute">
