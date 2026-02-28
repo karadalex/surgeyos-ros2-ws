@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'path_planner_wave = arm_path.path_planner_wave:main',
             'keyboard_teleop = arm_path.keyboard_teleop:main',
+            'keyboard_joint_teleop = arm_path.keyboard_joint_teleop:main',
             'dual_arm_continuous_joint_states = arm_path.dual_arm_continuous_joint_states:main',
         ],
     },
