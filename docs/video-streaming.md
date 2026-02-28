@@ -24,7 +24,11 @@ sudo apt install ros-$ROS_DISTRO-camera-ros
 Terminal 1 (camera):
 
 ```bash
-ros2 run camera_ros camera_node
+ros2 run camera_ros camera_node --ros-args -r __node:=camera0 -p camera:=0
+```
+(Optional support for a second or more cameras)
+```bash
+ros2 run camera_ros camera_node --ros-args -r __node:=camera1 -p camera:=1
 ```
 
 Terminal 2 (web video server):

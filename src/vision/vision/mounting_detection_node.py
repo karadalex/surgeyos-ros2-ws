@@ -18,8 +18,8 @@ class MountingDetection(Node):
     def __init__(self):
         super().__init__('mounting_detection')
 
-        self.declare_parameter('input_topic', '/camera/image_raw')
-        self.declare_parameter('output_topic', '/image/processed')
+        self.declare_parameter('input_topic', '/camera0/image_raw')
+        self.declare_parameter('output_topic', '/camera0/image/processed')
         self.declare_parameter('tf_parent_frame', 'camera_link')
         self.declare_parameter('tf_child_frame', 'vision_target')
         self.declare_parameter('min_hole_area_px', 60.0)
@@ -200,8 +200,7 @@ class MountingDetection(Node):
                 if cv2.contourArea(c) > max_hole_contour_area:
                     max_hole_contour_area = cv2.contourArea(c)
                     max_hole_contour = c
-            hole_cm = np.mean(max_hole_contour, axis=0).astype(int)
-
+            hole_cm = np.mean(max_hole_contour.reshape(-1, 2), axis=0).astype(int)
             dx = new_cx - hole_cm[0]
             dy = new_cy - hole_cm[1]
             distance = np.sqrt(dx**2 + dy**2)
