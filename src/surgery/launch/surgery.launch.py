@@ -67,6 +67,12 @@ def generate_launch_description():
             Node(
                 package="kinematics",
                 executable="tf_to_inverse",
+                parameters=[
+                    {
+                        "base_frame": "camera_link",
+                        "target_frame": "vision_target",
+                    }
+                ],
                 output="screen",
             ),
         ]
