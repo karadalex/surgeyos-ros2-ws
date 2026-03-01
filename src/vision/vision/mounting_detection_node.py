@@ -146,6 +146,12 @@ class MountingDetection(Node):
             new_cx = cx - shift * ux
             new_cy = cy - shift * uy
 
+            # If point at dome distance next to the center is outside the contour, shift to the other side instead
+            maybe_outside = not cv2.pointPolygonTest(max_black_contour, (new_cx-2*shift*ux, new_cy-2*shift*uy), False) >= 0
+            if maybe_outside:
+                new_cx = cx + shift * ux
+                new_cy = cy + shift * uy
+
             new_center = (int(new_cx), int(new_cy))
 
             a, b = orientationVectors(black_pts)
