@@ -71,6 +71,13 @@ def generate_launch_description():
                     {
                         "base_frame": "camera_link",
                         "target_frame": "vision_target",
+                        "input_is_offset": True,
+                        "use_tf_z_offset": False,
+                        "use_tf_pitch": False,
+                        "nominal_x": 0.0,
+                        "nominal_y": 0.20,
+                        "nominal_z": 0.18,
+                        "nominal_pitch": 0.0,
                     }
                 ],
                 output="screen",

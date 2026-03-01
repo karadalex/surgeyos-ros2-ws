@@ -19,11 +19,25 @@ public:
     this->declare_parameter<std::string>("target_frame", "target");
     this->declare_parameter<std::string>("joint_prefix", "");
     this->declare_parameter<bool>("elbow_up", false);
+    this->declare_parameter<bool>("input_is_offset", false);
+    this->declare_parameter<bool>("use_tf_z_offset", false);
+    this->declare_parameter<bool>("use_tf_pitch", false);
+    this->declare_parameter<double>("nominal_x", 0.0);
+    this->declare_parameter<double>("nominal_y", 0.20);
+    this->declare_parameter<double>("nominal_z", 0.18);
+    this->declare_parameter<double>("nominal_pitch", 0.0);
 
     base_frame_ = this->get_parameter("base_frame").as_string();
     target_frame_ = this->get_parameter("target_frame").as_string();
     joint_prefix_ = this->get_parameter("joint_prefix").as_string();
     elbow_up_ = this->get_parameter("elbow_up").as_bool();
+    input_is_offset_ = this->get_parameter("input_is_offset").as_bool();
+    use_tf_z_offset_ = this->get_parameter("use_tf_z_offset").as_bool();
+    use_tf_pitch_ = this->get_parameter("use_tf_pitch").as_bool();
+    nominal_x_ = this->get_parameter("nominal_x").as_double();
+    nominal_y_ = this->get_parameter("nominal_y").as_double();
+    nominal_z_ = this->get_parameter("nominal_z").as_double();
+    nominal_pitch_ = this->get_parameter("nominal_pitch").as_double();
 
     joint_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("/joint_states", 10);
     tf_sub_ = this->create_subscription<tf2_msgs::msg::TFMessage>(
@@ -162,11 +176,24 @@ private:
       (void)roll;
       (void)yaw;
 
+      double target_x = x;
+      double target_y = y;
+      double target_z = z;
+      double target_pitch = pitch;
+
+      if (input_is_offset_) {
+        target_x = nominal_x_ + x;
+        target_y = nominal_y_ + y;
+        target_z = use_tf_z_offset_ ? (nominal_z_ + z) : nominal_z_;
+        target_pitch = use_tf_pitch_ ? pitch : nominal_pitch_;
+      }
+
       std::array<double, 5> joints{};
-      if (!solveIk(x, y, z, pitch, joints)) {
+      if (!solveIk(target_x, target_y, target_z, target_pitch, joints)) {
         RCLCPP_WARN_THROTTLE(
           this->get_logger(), *this->get_clock(), 2000,
-          "IK failed for transform %s -> %s", parent.c_str(), child.c_str());
+          "IK failed for transform %s -> %s (tf xyz=%.4f %.4f %.4f, target xyz=%.4f %.4f %.4f, pitch=%.4f)",
+          parent.c_str(), child.c_str(), x, y, z, target_x, target_y, target_z, target_pitch);
         return;
       }
 
@@ -189,6 +216,13 @@ private:
   std::string target_frame_;
   std::string joint_prefix_;
   bool elbow_up_{false};
+  bool input_is_offset_{false};
+  bool use_tf_z_offset_{false};
+  bool use_tf_pitch_{false};
+  double nominal_x_{0.0};
+  double nominal_y_{0.20};
+  double nominal_z_{0.18};
+  double nominal_pitch_{0.0};
 
   rclcpp::Subscription<tf2_msgs::msg::TFMessage>::SharedPtr tf_sub_;
   rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_pub_;
