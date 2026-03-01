@@ -37,9 +37,16 @@ def generate_launch_description():
             DeclareLaunchArgument("use_web_video_server", default_value="true"),
             robot_description2_display,
             Node(
-                package="camera_ros",
-                executable="camera_node",
-                output="screen",
+                package='camera_ros',
+                executable='camera_node',
+                name='camera0',
+                parameters=[{'camera': 0}],
+            ),
+            Node(
+                package='camera_ros',
+                executable='camera_node',
+                name='camera1',
+                parameters=[{'camera': 1}],
             ),
             Node(
                 package="vision",
