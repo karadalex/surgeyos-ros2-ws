@@ -5,7 +5,7 @@ package_name = "gantry_linear_control"
 setup(
     name=package_name,
     version="0.1.0",
-    packages=find_packages(include=[package_name, package_name + ".*"]),
+    packages=find_packages(),
     data_files=[
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
@@ -21,9 +21,9 @@ setup(
     license="MIT",
     entry_points={
         "console_scripts": [
-            "serial_driver_node = gantry_linear_control.nodes.serial_driver_node:main",
-            "linear_action_server = gantry_linear_control.nodes.linear_action_server:main",
-            "xyz_path_planner = gantry_linear_control.nodes.xyz_path_planner:main",
+            "serial_driver_node = nodes.serial_driver_node:main",
+            "linear_action_server = nodes.linear_action_server:main",
+            "xyz_path_planner = nodes.xyz_path_planner:main",
         ],
     },
 )

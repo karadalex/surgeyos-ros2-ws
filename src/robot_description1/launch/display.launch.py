@@ -51,6 +51,11 @@ def generate_launch_description():
             executable="joint_state_publisher",
             condition=IfCondition(use_joint_state_publisher),
             output="screen",
+            parameters=[{
+                # Merge externally-published joint states so animated joints
+                # appear in RViz while unspecified joints still get defaults.
+                "source_list": ["/gantry_joint_states"],
+            }],
         ),
         SetEnvironmentVariable(
             name="LIBGL_ALWAYS_SOFTWARE",
