@@ -2131,7 +2131,7 @@
     </collision>
   </link>
   <!-- Joint from axis5 to axis6 -->
-  <joint name="joint5 (1)" type="revolute">
+  <joint name="arm2_joint5" type="revolute">
     <origin xyz="-0 0.11 -0.03" rpy="-1.5708 -1.54613 -3.14159"/>
     <parent link="axis5"/>
     <child link="axis6"/>
@@ -2139,7 +2139,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis4 to axis5 -->
-  <joint name="joint4 (1)" type="revolute">
+  <joint name="arm2_joint4" type="revolute">
     <origin xyz="0 -0.005 -0.09" rpy="-1.5708 -1.46178 -3.14159"/>
     <parent link="axis4"/>
     <child link="axis5"/>
@@ -2147,7 +2147,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis3 to axis4 -->
-  <joint name="joint3 (1)" type="revolute">
+  <joint name="arm2_joint3" type="revolute">
     <origin xyz="0.000135636 -0.19 0.03" rpy="-1.5708 0.529841 -0"/>
     <parent link="axis3"/>
     <child link="axis4"/>
@@ -2155,7 +2155,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis2 to axis3 -->
-  <joint name="joint2 (1)" type="revolute">
+  <joint name="arm2_joint2" type="revolute">
     <origin xyz="0 0.15 -0.02" rpy="-3.14159 0 1.2109"/>
     <parent link="axis2"/>
     <child link="axis3"/>
@@ -2163,7 +2163,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis1_2 to axis2 -->
-  <joint name="joint1 (1)" type="revolute">
+  <joint name="arm2_joint1" type="revolute">
     <origin xyz="0 0 -0.18" rpy="1.5708 -1.17344 1.5708"/>
     <parent link="axis1_2"/>
     <child link="axis2"/>
@@ -2171,7 +2171,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from leadscrew to axis1_2 -->
-  <joint name="arm2" type="revolute">
+  <joint name="arm2_joint0" type="revolute">
     <origin xyz="-0.12 0.17 0" rpy="-3.14159 0 0"/>
     <parent link="leadscrew"/>
     <child link="axis1_2"/>
@@ -2323,7 +2323,7 @@
     </collision>
   </link>
   <!-- Joint from axis5_2 to axis6_2 -->
-  <joint name="joint5 (1) (1)" type="revolute">
+  <joint name="arm3_joint5" type="revolute">
     <origin xyz="-0 0.11 -0.03" rpy="-1.5708 -0.938431 3.14159"/>
     <parent link="axis5_2"/>
     <child link="axis6_2"/>
@@ -2331,7 +2331,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis4_2 to axis5_2 -->
-  <joint name="joint4 (1) (1)" type="revolute">
+  <joint name="arm3_joint4" type="revolute">
     <origin xyz="0 -0.005 -0.09" rpy="-1.5708 -0.555692 3.14159"/>
     <parent link="axis4_2"/>
     <child link="axis5_2"/>
@@ -2339,7 +2339,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis3_2 to axis4_2 -->
-  <joint name="joint3 (1) (1)" type="revolute">
+  <joint name="arm3_joint3" type="revolute">
     <origin xyz="0.000135636 -0.19 0.03" rpy="1.5708 1.52901 -3.14159"/>
     <parent link="axis3_2"/>
     <child link="axis4_2"/>
@@ -2347,7 +2347,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis2_2 to axis3_2 -->
-  <joint name="joint2 (1) (1)" type="revolute">
+  <joint name="arm3_joint2" type="revolute">
     <origin xyz="-0 0.15 -0.02" rpy="-3.14159 0 1.42829"/>
     <parent link="axis2_2"/>
     <child link="axis3_2"/>
@@ -2355,7 +2355,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis1_3 to axis2_2 -->
-  <joint name="joint1 (1) (1)" type="revolute">
+  <joint name="arm3_joint1" type="revolute">
     <origin xyz="-0 0 -0.18" rpy="1.5708 -1.17344 -0.163809"/>
     <parent link="axis1_3"/>
     <child link="axis2_2"/>
@@ -2363,7 +2363,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from leadscrew to axis1_3 -->
-  <joint name="arm3" type="revolute">
+  <joint name="arm3_joint0" type="revolute">
     <origin xyz="-0.24 -0 0" rpy="-3.14159 0 0"/>
     <parent link="leadscrew"/>
     <child link="axis1_3"/>
@@ -2515,7 +2515,7 @@
     </collision>
   </link>
   <!-- Joint from axis5_3 to axis6_3 -->
-  <joint name="joint5 (2)" type="revolute">
+  <joint name="arm4_joint5" type="revolute">
     <origin xyz="-0 0.11 -0.03" rpy="1.5708 -0.581164 -0"/>
     <parent link="axis5_3"/>
     <child link="axis6_3"/>
@@ -2523,7 +2523,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis4_3 to axis5_3 -->
-  <joint name="joint4 (2)" type="revolute">
+  <joint name="arm4_joint4" type="revolute">
     <origin xyz="0 -0.005 -0.09" rpy="-1.5708 -1.40423 3.14159"/>
     <parent link="axis4_3"/>
     <child link="axis5_3"/>
@@ -2531,7 +2531,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis3_3 to axis4_3 -->
-  <joint name="joint3 (2)" type="revolute">
+  <joint name="arm4_joint3" type="revolute">
     <origin xyz="0.000135636 -0.19 0.03" rpy="-1.5708 -0.640792 -0"/>
     <parent link="axis3_3"/>
     <child link="axis4_3"/>
@@ -2539,7 +2539,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis2_3 to axis3_3 -->
-  <joint name="joint2 (2)" type="revolute">
+  <joint name="arm4_joint2" type="revolute">
     <origin xyz="0 0.15 -0.02" rpy="3.14159 0 1.2109"/>
     <parent link="axis2_3"/>
     <child link="axis3_3"/>
@@ -2547,7 +2547,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis1_4 to axis2_3 -->
-  <joint name="joint1 (2)" type="revolute">
+  <joint name="arm4_joint1" type="revolute">
     <origin xyz="0 0 -0.18" rpy="1.5708 -1.17344 -1.5708"/>
     <parent link="axis1_4"/>
     <child link="axis2_3"/>
@@ -2555,7 +2555,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from leadscrew to axis1_4 -->
-  <joint name="arm4" type="revolute">
+  <joint name="arm4_joint0" type="revolute">
     <origin xyz="-0.12 -0.17 0" rpy="-3.14159 0 0"/>
     <parent link="leadscrew"/>
     <child link="axis1_4"/>
@@ -2563,7 +2563,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from leadscrew to axis1 -->
-  <joint name="arm1" type="fixed">
+  <joint name="arm1_joint0" type="fixed">
     <origin xyz="0.919921 -0.241288 1.65898" rpy="3.14159 0 1.5708"/>
     <parent link="leadscrew"/>
     <child link="axis1"/>
@@ -2689,7 +2689,7 @@
     </collision>
   </link>
   <!-- Joint from axis5_4 to axis6_4 -->
-  <joint name="joint5" type="revolute">
+  <joint name="arm1_joint5" type="revolute">
     <origin xyz="0 0.11 -0.03" rpy="-1.5708 -1.54613 -3.14159"/>
     <parent link="axis5_4"/>
     <child link="axis6_4"/>
@@ -2697,7 +2697,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis4_4 to axis5_4 -->
-  <joint name="joint4" type="revolute">
+  <joint name="arm1_joint4" type="revolute">
     <origin xyz="0 -0.005 -0.09" rpy="-1.5708 -1.46178 3.14159"/>
     <parent link="axis4_4"/>
     <child link="axis5_4"/>
@@ -2705,7 +2705,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis3_4 to axis4_4 -->
-  <joint name="joint3" type="revolute">
+  <joint name="arm1_joint3" type="revolute">
     <origin xyz="0.000135636 -0.19 0.03" rpy="-1.5708 0.529841 -0"/>
     <parent link="axis3_4"/>
     <child link="axis4_4"/>
@@ -2713,7 +2713,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis2_4 to axis3_4 -->
-  <joint name="joint2" type="revolute">
+  <joint name="arm1_joint2" type="revolute">
     <origin xyz="0 0.15 -0.02" rpy="-3.14159 -0 1.2109"/>
     <parent link="axis2_4"/>
     <child link="axis3_4"/>
@@ -2721,7 +2721,7 @@
     <limit effort="10" velocity="10" lower="-3.141592653589793" upper="3.141592653589793"/>
   </joint>
   <!-- Joint from axis1 to axis2_4 -->
-  <joint name="joint1" type="revolute">
+  <joint name="arm1_joint1" type="revolute">
     <origin xyz="0.243812 -0.919886 1.47898" rpy="1.5708 -1.17344 -1.5708"/>
     <parent link="axis1"/>
     <child link="axis2_4"/>
