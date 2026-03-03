@@ -1618,6 +1618,51 @@
       </geometry>
     </collision>
   </link>
+  <!-- Camera mounted below the z_axis_bottom assembly -->
+  <link name="z_bottom_camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-06"/>
+      <inertia ixx="1e-06" ixy="0" ixz="0" iyy="1e-06" iyz="0" izz="1e-06"/>
+    </inertial>
+  </link>
+  <link name="z_bottom_camera_optical_frame">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1e-06"/>
+      <inertia ixx="1e-06" ixy="0" ixz="0" iyy="1e-06" iyz="0" izz="1e-06"/>
+    </inertial>
+  </link>
+  <joint name="z_bottom_camera_joint" type="fixed">
+    <origin xyz="-0.12 0 -0.06" rpy="0 0 0"/>
+    <parent link="leadscrew"/>
+    <child link="z_bottom_camera_link"/>
+  </joint>
+  <joint name="z_bottom_camera_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
+    <parent link="z_bottom_camera_link"/>
+    <child link="z_bottom_camera_optical_frame"/>
+  </joint>
+  <gazebo reference="z_bottom_camera_link">
+    <sensor name="z_bottom_camera" type="camera">
+      <always_on>true</always_on>
+      <update_rate>30</update_rate>
+      <visualize>true</visualize>
+      <topic>/z_bottom_camera/image_raw</topic>
+      <camera name="z_bottom_camera_sensor">
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>10.0</far>
+        </clip>
+      </camera>
+    </sensor>
+  </gazebo>
   <!-- Link z_axis_base -->
   <link name="z_axis_base">
     <inertial>
