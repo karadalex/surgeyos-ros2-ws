@@ -8,8 +8,8 @@
   <link name="body">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="45.0"/>
+      <inertia ixx="33.80" ixy="0" ixz="0" iyy="9.65" iyz="0" izz="43.35"/>
     </inertial>
     <!-- Part v_slot_20x40x1500_linear_rail -->
     <visual>
@@ -1206,8 +1206,8 @@
   <link name="axis1">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.25"/>
+      <inertia ixx="8.33e-05" ixy="0" ixz="0" iyy="8.33e-05" iyz="0" izz="1.50e-04"/>
     </inertial>
     <!-- Part axis1 -->
     <visual>
@@ -1222,7 +1222,7 @@
     <collision>
       <origin xyz="0.238812 -0.949886 1.64898" rpy="-0 0 1.5708"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis1.stl"/>
+        <box size="0.06 0.06 0.02"/>
       </geometry>
     </collision>
   </link>
@@ -1230,8 +1230,8 @@
   <link name="leadscrew">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="8.0"/>
+      <inertia ixx="0.628" ixy="0" ixz="0" iyy="0.643" iyz="0" izz="0.068"/>
     </inertial>
     <!-- Part precision_rod_d10mm_l800mm -->
     <visual>
@@ -1667,8 +1667,8 @@
   <link name="z_axis_base">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="3.0"/>
+      <inertia ixx="0.0117" ixy="0" ixz="0" iyy="0.0157" iyz="0" izz="0.0202"/>
     </inertial>
     <!-- Part linear_bearing_lm10uu -->
     <visual>
@@ -2035,8 +2035,8 @@
   <link name="axis1_2">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.25"/>
+      <inertia ixx="8.33e-05" ixy="0" ixz="0" iyy="8.33e-05" iyz="0" izz="1.50e-04"/>
     </inertial>
     <!-- Part axis1_2 -->
     <visual>
@@ -2051,7 +2051,7 @@
     <collision>
       <origin xyz="0.005 0.03 -0.01" rpy="-0 -0 -1.5708"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis1.stl"/>
+        <box size="0.06 0.06 0.02"/>
       </geometry>
     </collision>
   </link>
@@ -2059,8 +2059,8 @@
   <link name="axis2">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.20"/>
+      <inertia ixx="5.67e-05" ixy="0" ixz="0" iyy="5.67e-05" iyz="0" izz="8.33e-05"/>
     </inertial>
     <!-- Part axis2 -->
     <visual>
@@ -2075,7 +2075,7 @@
     <collision>
       <origin xyz="-0.025 -0.025 -0.015" rpy="1.5708 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis2.stl"/>
+        <box size="0.05 0.05 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2083,8 +2083,8 @@
   <link name="axis3">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.18"/>
+      <inertia ixx="4.80e-05" ixy="0" ixz="0" iyy="6.15e-05" iyz="0" izz="6.15e-05"/>
     </inertial>
     <!-- Part axis3 -->
     <visual>
@@ -2099,7 +2099,7 @@
     <collision>
       <origin xyz="-0.0201356 0.02 0.025" rpy="-1.5708 -0 -0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis3.stl"/>
+        <box size="0.05 0.04 0.04"/>
       </geometry>
     </collision>
   </link>
@@ -2107,8 +2107,8 @@
   <link name="axis4">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.15"/>
+      <inertia ixx="3.13e-05" ixy="0" ixz="0" iyy="4.25e-05" iyz="0" izz="5.13e-05"/>
     </inertial>
     <!-- Part axis4 -->
     <visual>
@@ -2123,7 +2123,7 @@
     <collision>
       <origin xyz="-0.02 0.005 -0.02" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis4.stl"/>
+        <box size="0.05 0.04 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2131,8 +2131,8 @@
   <link name="axis5">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.14"/>
+      <inertia ixx="3.97e-05" ixy="0" ixz="0" iyy="3.97e-05" iyz="0" izz="5.83e-05"/>
     </inertial>
     <!-- Part axis5 -->
     <visual>
@@ -2147,7 +2147,7 @@
     <collision>
       <origin xyz="-0.02 -0.02 -0.025" rpy="1.5708 -0 -0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis5.stl"/>
+        <box size="0.05 0.05 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2155,8 +2155,8 @@
   <link name="axis6">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.10"/>
+      <inertia ixx="1.50e-05" ixy="0" ixz="0" iyy="2.08e-05" iyz="0" izz="2.08e-05"/>
     </inertial>
     <!-- Part axis6 -->
     <visual>
@@ -2171,7 +2171,7 @@
     <collision>
       <origin xyz="-0.02 0.005 -0.015" rpy="-0 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis6.stl"/>
+        <box size="0.04 0.03 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2227,8 +2227,8 @@
   <link name="axis1_3">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.25"/>
+      <inertia ixx="8.33e-05" ixy="0" ixz="0" iyy="8.33e-05" iyz="0" izz="1.50e-04"/>
     </inertial>
     <!-- Part axis1_3 -->
     <visual>
@@ -2243,7 +2243,7 @@
     <collision>
       <origin xyz="0.028783 -0.00982538 -0.01" rpy="0 -0 2.97778"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis1.stl"/>
+        <box size="0.06 0.06 0.02"/>
       </geometry>
     </collision>
   </link>
@@ -2251,8 +2251,8 @@
   <link name="axis2_2">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.20"/>
+      <inertia ixx="5.67e-05" ixy="0" ixz="0" iyy="5.67e-05" iyz="0" izz="8.33e-05"/>
     </inertial>
     <!-- Part axis2_2 -->
     <visual>
@@ -2267,7 +2267,7 @@
     <collision>
       <origin xyz="-0.025 -0.025 -0.015" rpy="1.5708 0 -0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis2.stl"/>
+        <box size="0.05 0.05 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2275,8 +2275,8 @@
   <link name="axis3_2">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.18"/>
+      <inertia ixx="4.80e-05" ixy="0" ixz="0" iyy="6.15e-05" iyz="0" izz="6.15e-05"/>
     </inertial>
     <!-- Part axis3_2 -->
     <visual>
@@ -2291,7 +2291,7 @@
     <collision>
       <origin xyz="-0.0201356 0.02 0.025" rpy="-1.5708 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis3.stl"/>
+        <box size="0.05 0.04 0.04"/>
       </geometry>
     </collision>
   </link>
@@ -2299,8 +2299,8 @@
   <link name="axis4_2">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.15"/>
+      <inertia ixx="3.13e-05" ixy="0" ixz="0" iyy="4.25e-05" iyz="0" izz="5.13e-05"/>
     </inertial>
     <!-- Part axis4_2 -->
     <visual>
@@ -2315,7 +2315,7 @@
     <collision>
       <origin xyz="-0.02 0.005 -0.02" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis4.stl"/>
+        <box size="0.05 0.04 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2323,8 +2323,8 @@
   <link name="axis5_2">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.14"/>
+      <inertia ixx="3.97e-05" ixy="0" ixz="0" iyy="3.97e-05" iyz="0" izz="5.83e-05"/>
     </inertial>
     <!-- Part axis5_2 -->
     <visual>
@@ -2339,7 +2339,7 @@
     <collision>
       <origin xyz="-0.02 -0.02 -0.025" rpy="1.5708 -0 -0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis5.stl"/>
+        <box size="0.05 0.05 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2347,8 +2347,8 @@
   <link name="axis6_2">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.10"/>
+      <inertia ixx="1.50e-05" ixy="0" ixz="0" iyy="2.08e-05" iyz="0" izz="2.08e-05"/>
     </inertial>
     <!-- Part axis6_2 -->
     <visual>
@@ -2363,7 +2363,7 @@
     <collision>
       <origin xyz="-0.02 0.005 -0.015" rpy="-0 -0 -0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis6.stl"/>
+        <box size="0.04 0.03 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2419,8 +2419,8 @@
   <link name="axis1_4">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.25"/>
+      <inertia ixx="8.33e-05" ixy="0" ixz="0" iyy="8.33e-05" iyz="0" izz="1.50e-04"/>
     </inertial>
     <!-- Part axis1_4 -->
     <visual>
@@ -2435,7 +2435,7 @@
     <collision>
       <origin xyz="-0.005 -0.03 -0.01" rpy="0 0 1.5708"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis1.stl"/>
+        <box size="0.06 0.06 0.02"/>
       </geometry>
     </collision>
   </link>
@@ -2443,8 +2443,8 @@
   <link name="axis2_3">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.20"/>
+      <inertia ixx="5.67e-05" ixy="0" ixz="0" iyy="5.67e-05" iyz="0" izz="8.33e-05"/>
     </inertial>
     <!-- Part axis2_3 -->
     <visual>
@@ -2459,7 +2459,7 @@
     <collision>
       <origin xyz="-0.025 -0.025 -0.015" rpy="1.5708 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis2.stl"/>
+        <box size="0.05 0.05 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2467,8 +2467,8 @@
   <link name="axis3_3">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.18"/>
+      <inertia ixx="4.80e-05" ixy="0" ixz="0" iyy="6.15e-05" iyz="0" izz="6.15e-05"/>
     </inertial>
     <!-- Part axis3_3 -->
     <visual>
@@ -2483,7 +2483,7 @@
     <collision>
       <origin xyz="-0.0201356 0.02 0.025" rpy="-1.5708 -0 -0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis3.stl"/>
+        <box size="0.05 0.04 0.04"/>
       </geometry>
     </collision>
   </link>
@@ -2491,8 +2491,8 @@
   <link name="axis4_3">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.15"/>
+      <inertia ixx="3.13e-05" ixy="0" ixz="0" iyy="4.25e-05" iyz="0" izz="5.13e-05"/>
     </inertial>
     <!-- Part axis4_3 -->
     <visual>
@@ -2507,7 +2507,7 @@
     <collision>
       <origin xyz="-0.02 0.005 -0.02" rpy="-0 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis4.stl"/>
+        <box size="0.05 0.04 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2515,8 +2515,8 @@
   <link name="axis5_3">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.14"/>
+      <inertia ixx="3.97e-05" ixy="0" ixz="0" iyy="3.97e-05" iyz="0" izz="5.83e-05"/>
     </inertial>
     <!-- Part axis5_3 -->
     <visual>
@@ -2531,7 +2531,7 @@
     <collision>
       <origin xyz="-0.02 -0.02 -0.025" rpy="1.5708 0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis5.stl"/>
+        <box size="0.05 0.05 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2539,8 +2539,8 @@
   <link name="axis6_3">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.10"/>
+      <inertia ixx="1.50e-05" ixy="0" ixz="0" iyy="2.08e-05" iyz="0" izz="2.08e-05"/>
     </inertial>
     <!-- Part axis6_3 -->
     <visual>
@@ -2555,7 +2555,7 @@
     <collision>
       <origin xyz="-0.02 0.005 -0.015" rpy="-0 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis6.stl"/>
+        <box size="0.04 0.03 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2617,8 +2617,8 @@
   <link name="axis2_4">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.20"/>
+      <inertia ixx="5.67e-05" ixy="0" ixz="0" iyy="5.67e-05" iyz="0" izz="8.33e-05"/>
     </inertial>
     <!-- Part axis2_4 -->
     <visual>
@@ -2633,7 +2633,7 @@
     <collision>
       <origin xyz="-0.025 -0.025 -0.015" rpy="1.5708 0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis2.stl"/>
+        <box size="0.05 0.05 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2641,8 +2641,8 @@
   <link name="axis3_4">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.18"/>
+      <inertia ixx="4.80e-05" ixy="0" ixz="0" iyy="6.15e-05" iyz="0" izz="6.15e-05"/>
     </inertial>
     <!-- Part axis3_4 -->
     <visual>
@@ -2657,7 +2657,7 @@
     <collision>
       <origin xyz="-0.0201356 0.02 0.025" rpy="-1.5708 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis3.stl"/>
+        <box size="0.05 0.04 0.04"/>
       </geometry>
     </collision>
   </link>
@@ -2665,8 +2665,8 @@
   <link name="axis4_4">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.15"/>
+      <inertia ixx="3.13e-05" ixy="0" ixz="0" iyy="4.25e-05" iyz="0" izz="5.13e-05"/>
     </inertial>
     <!-- Part axis4_4 -->
     <visual>
@@ -2681,7 +2681,7 @@
     <collision>
       <origin xyz="-0.02 0.005 -0.02" rpy="0 0 -0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis4.stl"/>
+        <box size="0.05 0.04 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2689,8 +2689,8 @@
   <link name="axis5_4">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.14"/>
+      <inertia ixx="3.97e-05" ixy="0" ixz="0" iyy="3.97e-05" iyz="0" izz="5.83e-05"/>
     </inertial>
     <!-- Part axis5_4 -->
     <visual>
@@ -2705,7 +2705,7 @@
     <collision>
       <origin xyz="-0.02 -0.02 -0.025" rpy="1.5708 0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis5.stl"/>
+        <box size="0.05 0.05 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2713,8 +2713,8 @@
   <link name="axis6_4">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="0.10"/>
+      <inertia ixx="1.50e-05" ixy="0" ixz="0" iyy="2.08e-05" iyz="0" izz="2.08e-05"/>
     </inertial>
     <!-- Part axis6_4 -->
     <visual>
@@ -2729,7 +2729,7 @@
     <collision>
       <origin xyz="-0.02 0.005 -0.015" rpy="0 -0 0"/>
       <geometry>
-        <mesh filename="package://robot_description1/meshes/axis6.stl"/>
+        <box size="0.04 0.03 0.03"/>
       </geometry>
     </collision>
   </link>
@@ -2785,8 +2785,8 @@
   <link name="gantry_column">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1e-09"/>
-      <inertia ixx="1e-09" ixy="0" ixz="0" iyy="1e-09" iyz="0" izz="1e-09"/>
+      <mass value="30.0"/>
+      <inertia ixx="7.69" ixy="0" ixz="0" iyy="14.06" iyz="0" izz="6.44"/>
     </inertial>
     <!-- Part v_slot_20x40x1500_linear_rail_5 -->
     <visual>
