@@ -24,6 +24,7 @@ setup(
             'keyboard_teleop = arm_path.keyboard_teleop:main',
             'keyboard_joint_teleop = arm_path.keyboard_joint_teleop:main',
             'dual_arm_continuous_joint_states = arm_path.dual_arm_continuous_joint_states:main',
+            'arm1_demo_joint_states = arm_path.arm1_demo_joint_states:main',
         ],
     },
 )

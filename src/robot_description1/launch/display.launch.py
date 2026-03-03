@@ -54,7 +54,7 @@ def generate_launch_description():
             parameters=[{
                 # Merge externally-published joint states so animated joints
                 # appear in RViz while unspecified joints still get defaults.
-                "source_list": ["/gantry_joint_states"],
+                "source_list": ["/gantry_joint_states", "/arm1_joint_states"],
             }],
         ),
         SetEnvironmentVariable(
