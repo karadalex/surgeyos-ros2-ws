@@ -24,11 +24,13 @@ class MountingDetection(Node):
         self.declare_parameter('tf_child_frame', 'vision_target')
         self.declare_parameter('min_hole_area_px', 60.0)
         self.declare_parameter('meters_per_pixel', 0.001)
+        self.declare_parameter('use_visual_servoing', False)
 
         input_topic = self.get_parameter('input_topic').get_parameter_value().string_value
         output_topic = self.get_parameter('output_topic').get_parameter_value().string_value
         self.tf_parent_frame = self.get_parameter('tf_parent_frame').get_parameter_value().string_value
         self.tf_child_frame = self.get_parameter('tf_child_frame').get_parameter_value().string_value
+        self.use_visual_servoing = self.get_parameter('use_visual_servoing').get_parameter_value().bool_value
 
         self.bridge = CvBridge()
 
@@ -211,23 +213,25 @@ class MountingDetection(Node):
             dy = new_cy - hole_cm[1]
             distance = np.sqrt(dx**2 + dy**2)
 
-            # Publish XY correction as a TF translation (camera frame -> vision target).
-            # Visual servoing controller will move the arm to reduce the offset to zero.
-            meters_per_pixel = self.get_parameter(
-                'meters_per_pixel'
-            ).get_parameter_value().double_value
-            t = TransformStamped()
-            t.header.stamp = msg.header.stamp
-            t.header.frame_id = self.tf_parent_frame
-            t.child_frame_id = self.tf_child_frame
-            t.transform.translation.x = float(-dx * meters_per_pixel)
-            t.transform.translation.y = float(-dy * meters_per_pixel)
-            t.transform.translation.z = float(distance * meters_per_pixel)
-            t.transform.rotation.x = 0.0
-            t.transform.rotation.y = 0.0
-            t.transform.rotation.z = 0.0
-            t.transform.rotation.w = 1.0
-            self.tf_pub.publish(TFMessage(transforms=[t]))
+
+            if self.use_visual_servoing:
+                # Publish XY correction as a TF translation (camera frame -> vision target).
+                # Visual servoing controller will move the arm to reduce the offset to zero.
+                meters_per_pixel = self.get_parameter(
+                    'meters_per_pixel'
+                ).get_parameter_value().double_value
+                t = TransformStamped()
+                t.header.stamp = msg.header.stamp
+                t.header.frame_id = self.tf_parent_frame
+                t.child_frame_id = self.tf_child_frame
+                t.transform.translation.x = float(-dx * meters_per_pixel)
+                t.transform.translation.y = float(-dy * meters_per_pixel)
+                t.transform.translation.z = float(distance * meters_per_pixel)
+                t.transform.rotation.x = 0.0
+                t.transform.rotation.y = 0.0
+                t.transform.rotation.z = 0.0
+                t.transform.rotation.w = 1.0
+                self.tf_pub.publish(TFMessage(transforms=[t]))
 
             ####################################################################
             # Publish image feed and calculated center of mass
