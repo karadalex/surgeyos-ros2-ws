@@ -2029,8 +2029,87 @@
     <parent link="z_axis_base"/>
     <child link="leadscrew"/>
     <axis xyz="0 0 -1"/>
+    <dynamics damping="25.0" friction="2.0"/>
     <limit effort="10" velocity="10" lower="-1" upper="1"/>
   </joint>
+  <gazebo reference="leadscrew">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis1">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis1_2">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis2">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis3">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis4">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis5">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis6">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis1_3">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis2_2">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis3_2">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis4_2">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis5_2">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis6_2">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis1_4">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis2_3">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis3_3">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis4_3">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis5_3">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis6_3">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis2_4">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis3_4">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis4_4">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis5_4">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="axis6_4">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="z_bottom_camera_link">
+    <gravity>false</gravity>
+  </gazebo>
   <!-- Link axis1_2 -->
   <link name="axis1_2">
     <inertial>
