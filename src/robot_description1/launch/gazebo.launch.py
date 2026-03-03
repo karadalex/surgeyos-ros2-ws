@@ -14,8 +14,12 @@ def generate_launch_description():
     world = LaunchConfiguration("world")
     use_joint_state_publisher = LaunchConfiguration("use_joint_state_publisher")
     use_rviz = LaunchConfiguration("use_rviz")
+    use_demo_controller = LaunchConfiguration("use_demo_controller")
     rviz_config = LaunchConfiguration("rviz_config")
     generated_urdf = "/tmp/robot_description1_gazebo.urdf"
+    bridge_config = PathJoinSubstitution(
+        [FindPackageShare("robot_description1"), "config", "gazebo_bridge.yaml"]
+    )
 
     robot_description_content = Command([FindExecutable(name="xacro"), " ", model])
     robot_description = ParameterValue(
@@ -68,8 +72,9 @@ def generate_launch_description():
                     [FindPackageShare("robot_description1"), "worlds", "empty.sdf"]
                 ),
             ),
-            DeclareLaunchArgument("use_joint_state_publisher", default_value="true"),
-            DeclareLaunchArgument("use_rviz", default_value="false"),
+            DeclareLaunchArgument("use_joint_state_publisher", default_value="false"),
+            DeclareLaunchArgument("use_rviz", default_value="true"),
+            DeclareLaunchArgument("use_demo_controller", default_value="true"),
             DeclareLaunchArgument(
                 "rviz_config",
                 default_value=PathJoinSubstitution(
@@ -126,11 +131,14 @@ def generate_launch_description():
                 package="ros_gz_bridge",
                 executable="parameter_bridge",
                 output="screen",
-                arguments=[
-                    "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
-                    "/z_bottom_camera/image_raw@sensor_msgs/msg/Image[gz.msgs.Image",
-                    "/z_bottom_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
-                ],
+                parameters=[{"config_file": bridge_config}],
+            ),
+            Node(
+                package="arm_path",
+                executable="gazebo_demo_joint_commands",
+                output="screen",
+                condition=IfCondition(use_demo_controller),
+                parameters=[{"use_sim_time": True}],
             ),
             Node(
                 package="rviz2",
