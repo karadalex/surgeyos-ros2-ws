@@ -60,12 +60,13 @@
     </model>
     <model name="mounting_dock">
       <static>true</static>
-      <pose>0 0 0 0 0 0</pose>
+      <pose>0.2 -1.5 0.1 0 0 1.57079632679</pose>
       <link name="link">
         <collision name="collision">
           <geometry>
             <mesh>
               <uri>package://objects/meshes/mounting_dock.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
             </mesh>
           </geometry>
         </collision>
@@ -73,6 +74,7 @@
           <geometry>
             <mesh>
               <uri>package://objects/meshes/mounting_dock.stl</uri>
+              <scale>0.001 0.001 0.001</scale>
             </mesh>
           </geometry>
         </visual>
