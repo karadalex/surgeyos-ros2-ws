@@ -58,5 +58,25 @@
         </visual>
       </link>
     </model>
+    <model name="mounting_dock">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>package://objects/meshes/mounting_dock.stl</uri>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>package://objects/meshes/mounting_dock.stl</uri>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
   </world>
 </sdf>
