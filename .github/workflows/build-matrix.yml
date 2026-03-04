@@ -33,9 +33,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            python3-ament-package \
             python3-colcon-common-extensions \
+            python3-pip \
             python3-rosdep
+          sudo python3 -m pip install ament-package
 
       - name: Install dependencies with rosdep
         run: |
@@ -72,7 +73,9 @@ jobs:
           apt-get update
           apt-get install -y \
             python3-colcon-common-extensions \
+            python3-pip \
             python3-rosdep
+          python3 -m pip install ament-package
 
       - name: Install dependencies with rosdep
         shell: bash
