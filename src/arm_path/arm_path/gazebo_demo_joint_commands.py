@@ -15,25 +15,56 @@ class GazeboDemoJointCommands(Node):
         super().__init__("gazebo_demo_joint_commands")
 
         self.declare_parameter("publish_hz", 30.0)
-        self.declare_parameter("frequency_hz", 0.10)
-        self.declare_parameter("amp_x_m", 0.15)
-        self.declare_parameter("amp_y_m", 0.10)
-        self.declare_parameter("amp_z_m", 0.08)
-        self.declare_parameter("amp_arm1_joint1", 0.20)
-        self.declare_parameter("amp_arm1_joint2", 0.18)
-        self.declare_parameter("amp_arm1_joint3", 0.15)
-        self.declare_parameter("amp_arm1_joint4", 0.12)
-        self.declare_parameter("amp_arm1_joint5", 0.10)
+        self.declare_parameter("frequency_hz", 0.04)
+        self.declare_parameter("amp_x_m", 0.30)
+        self.declare_parameter("amp_y_m", 0.20)
+        self.declare_parameter("amp_z_m", 0.15)
+        self.declare_parameter("amp_arm1_joint1", 0.45)
+        self.declare_parameter("amp_arm1_joint2", 0.40)
+        self.declare_parameter("amp_arm1_joint3", 0.35)
+        self.declare_parameter("amp_arm1_joint4", 0.30)
+        self.declare_parameter("amp_arm1_joint5", 0.25)
 
-        self._topic_by_joint = {
-            "extra_root_2_to_gantry_column": "/sim/extra_root_2_to_gantry_column/cmd_pos",
-            "extra_root_1_to_axis1": "/sim/extra_root_1_to_axis1/cmd_pos",
-            "z": "/sim/z/cmd_pos",
-            "arm1_joint1": "/sim/arm1_joint1/cmd_pos",
-            "arm1_joint2": "/sim/arm1_joint2/cmd_pos",
-            "arm1_joint3": "/sim/arm1_joint3/cmd_pos",
-            "arm1_joint4": "/sim/arm1_joint4/cmd_pos",
-            "arm1_joint5": "/sim/arm1_joint5/cmd_pos",
+        self._topics_by_joint = {
+            "extra_root_2_to_gantry_column": [
+                "/sim/extra_root_2_to_gantry_column/cmd_pos",
+                "/sim/extra_root_2_to_gantry_column_rear/cmd_pos",
+            ],
+            "extra_root_1_to_axis1": [
+                "/sim/extra_root_1_to_axis1/cmd_pos",
+                "/sim/extra_root_1_to_axis1_left/cmd_pos",
+                "/sim/extra_root_1_to_axis1_rear/cmd_pos",
+            ],
+            "z": [
+                "/sim/z/cmd_pos",
+                "/sim/z_left/cmd_pos",
+                "/sim/z_rear/cmd_pos",
+            ],
+            "arm1_joint1": [
+                "/sim/arm1_joint1/cmd_pos",
+                "/sim/arm1_joint1_left/cmd_pos",
+                "/sim/arm1_joint1_rear/cmd_pos",
+            ],
+            "arm1_joint2": [
+                "/sim/arm1_joint2/cmd_pos",
+                "/sim/arm1_joint2_left/cmd_pos",
+                "/sim/arm1_joint2_rear/cmd_pos",
+            ],
+            "arm1_joint3": [
+                "/sim/arm1_joint3/cmd_pos",
+                "/sim/arm1_joint3_left/cmd_pos",
+                "/sim/arm1_joint3_rear/cmd_pos",
+            ],
+            "arm1_joint4": [
+                "/sim/arm1_joint4/cmd_pos",
+                "/sim/arm1_joint4_left/cmd_pos",
+                "/sim/arm1_joint4_rear/cmd_pos",
+            ],
+            "arm1_joint5": [
+                "/sim/arm1_joint5/cmd_pos",
+                "/sim/arm1_joint5_left/cmd_pos",
+                "/sim/arm1_joint5_rear/cmd_pos",
+            ],
         }
         self._phase_by_joint = {
             "extra_root_2_to_gantry_column": 0.0,
@@ -56,9 +87,9 @@ class GazeboDemoJointCommands(Node):
             "arm1_joint5": float(self.get_parameter("amp_arm1_joint5").value),
         }
 
-        self._publishers = {
-            joint: self.create_publisher(Float64, topic, 10)
-            for joint, topic in self._topic_by_joint.items()
+        self._publishers_by_joint = {
+            joint: [self.create_publisher(Float64, topic, 10) for topic in topics]
+            for joint, topics in self._topics_by_joint.items()
         }
         self._t0 = time.monotonic()
 
@@ -71,10 +102,11 @@ class GazeboDemoJointCommands(Node):
     def _on_timer(self) -> None:
         t = time.monotonic() - self._t0
         wt = 2.0 * math.pi * float(self.get_parameter("frequency_hz").value) * t
-        for joint, publisher in self._publishers.items():
+        for joint, publishers in self._publishers_by_joint.items():
             msg = Float64()
             msg.data = self._amp_by_joint[joint] * math.sin(wt + self._phase_by_joint[joint])
-            publisher.publish(msg)
+            for publisher in publishers:
+                publisher.publish(msg)
 
 
 def main() -> None:
