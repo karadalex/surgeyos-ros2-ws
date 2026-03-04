@@ -57,6 +57,7 @@ def generate_launch_description():
     use_joint_state_publisher = LaunchConfiguration("use_joint_state_publisher")
     use_rviz = LaunchConfiguration("use_rviz")
     use_demo_controller = LaunchConfiguration("use_demo_controller")
+    robot_file = LaunchConfiguration("robot_file", default="robot.urdf.xacro")
     rviz_config = LaunchConfiguration("rviz_config")
     generated_urdf = "/tmp/robot_description1_gazebo.urdf"
     bridge_config = PathJoinSubstitution(
@@ -105,7 +106,7 @@ def generate_launch_description():
             DeclareLaunchArgument(
                 "model",
                 default_value=PathJoinSubstitution(
-                    [FindPackageShare("robot_description1"), "urdf", "robot.urdf.xacro"]
+                    [FindPackageShare("robot_description1"), "urdf", robot_file]
                 ),
             ),
             DeclareLaunchArgument(
