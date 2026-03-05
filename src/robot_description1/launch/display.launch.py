@@ -14,11 +14,13 @@ def generate_launch_description():
     use_software_gl = LaunchConfiguration("use_software_gl")
     model = LaunchConfiguration("model")
     rviz_config = LaunchConfiguration("rviz_config")
+    use_web_video_server = LaunchConfiguration("use_web_video_server", default="true")
 
     return LaunchDescription([
         DeclareLaunchArgument("use_joint_state_publisher", default_value="true"),
         DeclareLaunchArgument("use_rviz", default_value="true"),
         DeclareLaunchArgument("use_software_gl", default_value="true"),
+        DeclareLaunchArgument("use_web_video_server", default_value="true"),
         DeclareLaunchArgument(
             "model",
             default_value=PathJoinSubstitution([
@@ -56,6 +58,12 @@ def generate_launch_description():
                 # appear in RViz while unspecified joints still get defaults.
                 "source_list": ["/gantry_joint_states", "/arm1_joint_states"],
             }],
+        ),
+        Node(
+            package="web_video_server",
+            executable="web_video_server",
+            condition=IfCondition(use_web_video_server),
+            output="screen",
         ),
         SetEnvironmentVariable(
             name="LIBGL_ALWAYS_SOFTWARE",
