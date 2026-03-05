@@ -7,7 +7,6 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(ament_cmake_target_dependencies QUIET)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(tf2_msgs REQUIRED)
@@ -15,21 +14,16 @@ find_package(tf2_msgs REQUIRED)
 add_executable(tf_to_inverse src/tf_to_inverse.cpp)
 target_include_directories(tf_to_inverse PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
+  $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+  ${sensor_msgs_INCLUDE_DIRS}
+  ${tf2_msgs_INCLUDE_DIRS})
 target_compile_features(tf_to_inverse PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
-if(COMMAND ament_target_dependencies)
-  ament_target_dependencies(tf_to_inverse
-    rclcpp
-    sensor_msgs
-    tf2_msgs
-  )
-else()
-  target_include_directories(tf_to_inverse PUBLIC
-    ${sensor_msgs_INCLUDE_DIRS}
-    ${tf2_msgs_INCLUDE_DIRS})
-  target_link_libraries(tf_to_inverse PUBLIC rclcpp::rclcpp)
-endif()
+target_link_libraries(tf_to_inverse PUBLIC
+  rclcpp::rclcpp
+  ${sensor_msgs_TARGETS}
+  ${tf2_msgs_TARGETS}
+)
 
 install(TARGETS tf_to_inverse
   DESTINATION lib/${PROJECT_NAME})
