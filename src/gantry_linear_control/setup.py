@@ -24,6 +24,7 @@ setup(
             "serial_driver_node = nodes.serial_driver_node:main",
             "linear_action_server = nodes.linear_action_server:main",
             "xyz_path_planner = nodes.xyz_path_planner:main",
+            "gantry_joint_trajectory = nodes.gantry_joint_trajectory:main",
         ],
     },
 )

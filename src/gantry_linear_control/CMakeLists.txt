@@ -40,6 +40,12 @@ install(PROGRAMS
   RENAME xyz_path_planner
 )
 
+install(PROGRAMS
+  nodes/gantry_joint_trajectory.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME gantry_joint_trajectory
+)
+
 # Install launch files if present
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/launch")
   install(DIRECTORY launch
