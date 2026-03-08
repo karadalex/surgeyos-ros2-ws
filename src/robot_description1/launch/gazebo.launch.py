@@ -164,13 +164,13 @@ def generate_launch_description():
                 output="screen",
                 parameters=[{"config_file": bridge_config}],
             ),
-            Node(
-                package="arm_path",
-                executable="gazebo_demo_joint_commands",
-                output="screen",
-                condition=IfCondition(use_demo_controller),
-                parameters=[{"use_sim_time": True}],
-            ),
+            # Node(
+            #     package="arm_path",
+            #     executable="gazebo_demo_joint_commands",
+            #     output="screen",
+            #     condition=IfCondition(use_demo_controller),
+            #     parameters=[{"use_sim_time": True}],
+            # ),
             Node(
                 package="rviz2",
                 executable="rviz2",
