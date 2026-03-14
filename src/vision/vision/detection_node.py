@@ -14,9 +14,9 @@ greenColor = (0,255,0)
 redColor = (0,0,255)
 
 
-class MountingDetection(Node):
+class DetectionNode(Node):
     def __init__(self):
-        super().__init__('mounting_detection')
+        super().__init__('detection')
 
         self.declare_parameter('input_topic', '/camera0/image_raw')
         self.declare_parameter('output_topic', '/camera0/image/processed')
@@ -248,7 +248,7 @@ class MountingDetection(Node):
 
 def main():
     rclpy.init()
-    node = MountingDetection()
+    node = DetectionNode()
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:

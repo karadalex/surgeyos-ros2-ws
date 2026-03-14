@@ -6,8 +6,8 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='vision',
-            executable='mounting_detection',
-            name='mounting_detection',
+            executable='detection',
+            name='detection',
             output='screen',
             parameters=[
                 {'input_topic': '/camera/image_raw'},
