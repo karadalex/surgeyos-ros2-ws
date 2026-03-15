@@ -6,6 +6,13 @@ from tf2_msgs.msg import TFMessage
 from cv_bridge import CvBridge
 import cv2
 import numpy as np
+from vision.detection_helpers import (
+    compute_arm_pose,
+    detect_holes,
+    detect_mounting_dock,
+    detect_robotic_arm,
+    detect_white_model,
+)
 from vision.utils import *
 
 
@@ -60,29 +67,9 @@ class DetectionNode(Node):
             ####################################################################
             # Find the green mounting dock
             ####################################################################
-            # Segment green regions in HSV space.
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-            lower_green = np.array([35, 50, 40], dtype=np.uint8)
-            upper_green = np.array([90, 255, 255], dtype=np.uint8)
-            green_mask = cv2.inRange(hsv, lower_green, upper_green)
-
-            kernel = np.ones((5, 5), np.uint8)
-            green_mask = cv2.morphologyEx(green_mask, cv2.MORPH_OPEN, kernel, iterations=1)
-            green_mask = cv2.morphologyEx(green_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
-
-            object_contours, _ = cv2.findContours(
-                green_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
-            )
-            if not object_contours:
-                out_msg = self.bridge.cv2_to_imgmsg(out, encoding='bgr8')
-                out_msg.header = msg.header
-                self.pub.publish(out_msg)
-                return
-
-            # Use the largest green connected region as the target object.
-            obj = max(object_contours, key=cv2.contourArea)
-            object_area = cv2.contourArea(obj)
-            if object_area < 500.0:
+            green_mask, obj, bbox = detect_mounting_dock(hsv)
+            if obj is None:
                 out_msg = self.bridge.cv2_to_imgmsg(out, encoding='bgr8')
                 out_msg.header = msg.header
                 self.pub.publish(out_msg)
@@ -96,130 +83,53 @@ class DetectionNode(Node):
             ####################################################################
             # Find the black robotic arm
             ####################################################################
-            # Detect black object (assuming roarm robotic arm)
-            lower_black = np.array([0, 0, 0], dtype=np.uint8)
-            upper_black = np.array([200, 255, 100], dtype=np.uint8)  # tune V upper bound
-            black_mask = cv2.inRange(hsv, lower_black, upper_black)
+            black_contours, max_black_contour = detect_robotic_arm(hsv, out.shape)
+            if max_black_contour is None:
+                out_msg = self.bridge.cv2_to_imgmsg(out, encoding='bgr8')
+                out_msg.header = msg.header
+                self.pub.publish(out_msg)
+                return
 
-            kernel = np.ones((2, 2), np.uint8)
-            black_mask = cv2.morphologyEx(black_mask, cv2.MORPH_OPEN, kernel, iterations=1)
-            black_mask = cv2.morphologyEx(black_mask, cv2.MORPH_CLOSE, kernel, iterations=2)
-
-            black_contours, _ = cv2.findContours(
-                black_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
-            )
-
-            mask = np.zeros(out.shape[:2], dtype=np.uint8)
-            mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((10,10), np.uint8))
-            cv2.drawContours(mask, black_contours, -1, 255, thickness=cv2.FILLED)  # union fill
-            union_black_contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-            # union_contours now are merged outer contours
-
-            max_black_contour_area = 0
-            max_black_contour = None
-            for c in union_black_contours:
-                if cv2.contourArea(c) < 300:   # tune area threshold
-                    continue
-                if cv2.contourArea(c) > max_black_contour_area:
-                    max_black_contour_area = cv2.contourArea(c)
-                    max_black_contour = c
-                cv2.drawContours(out, [c], -1, (255, 0, 255), 2)  # magenta outline
+            for contour in black_contours:
+                cv2.drawContours(out, [contour], -1, (255, 0, 255), 2)
 
             ####################################################################
             # Find the robotic arm center of mass and pose and move towards gripper
             ####################################################################
-            black_pts, black_mask = points_inside_contour(max_black_contour, out.shape[:2])
-            cm = np.mean(black_pts, axis=0).astype(int)
+            arm_pose = compute_arm_pose(max_black_contour, out.shape)
+            if arm_pose is None:
+                out_msg = self.bridge.cv2_to_imgmsg(out, encoding='bgr8')
+                out_msg.header = msg.header
+                self.pub.publish(out_msg)
+                return
 
-            # Correct the orientation vector direction to point towards the gripper (assuming gripper is on the right side of the arm)
-            # contour: Nx1x2
-            ellipse = cv2.fitEllipse(max_black_contour)
-            (cx, cy), (w, h), angle_deg = ellipse   # center, axes, rotation
+            new_center = arm_pose['center']
+            cv2.arrowedLine(out, new_center, arm_pose['axis_a'], redColor, 2, 8, 0, 0.1)
+            cv2.arrowedLine(out, new_center, arm_pose['axis_b'], greenColor, 2, 8, 0, 0.1)
+            cv2.circle(out, new_center, 5, (255, 255, 0), -1)
 
-            # major-axis direction
-            theta = np.deg2rad(angle_deg)
-            ux, uy = np.cos(theta), np.sin(theta)
-
-            # if OpenCV returns swapped axes, rotate 90 deg
-            if h > w:
-                ux, uy = -np.sin(theta), np.cos(theta)
-
-            # shift center toward one side (e.g. +major direction)
-            shift = 0.45 * max(w, h)   # 25% of major axis length (tune)
-            new_cx = cx - shift * ux
-            new_cy = cy - shift * uy
-
-            # If point at dome distance next to the center is outside the contour then this is the correct direction, otherwise flip
-            maybe_inside = cv2.pointPolygonTest(max_black_contour, (new_cx-2*shift*ux, new_cy-2*shift*uy), False) >= 0
-            if maybe_inside:
-                new_cx = cx + shift * ux
-                new_cy = cy + shift * uy
-
-            new_center = (int(new_cx), int(new_cy))
-
-            a, b = orientationVectors(black_pts)
-            a = new_center + a
-            b = new_center + b
-            cv2.arrowedLine(out, (new_center[0],new_center[1]), (a[0], a[1]), redColor, 2, 8, 0, 0.1)
-            cv2.arrowedLine(out, (new_center[0],new_center[1]), (b[0], b[1]), greenColor, 2, 8, 0, 0.1)
-            cv2.circle(out, tuple(new_center), 5, (255, 255, 0), -1)  # magenta center of mass
-
-            x, y, w, h = cv2.boundingRect(obj)
+            x, y, w, h = bbox
 
             ####################################################################
             # Find a white 3d-printed aortic root model (if present) and calculate its center of mass and distance to arm center
             ####################################################################
-            white_mask = cv2.inRange(
-                hsv,
-                np.array([0, 0, 170], dtype=np.uint8),
-                np.array([180, 80, 255], dtype=np.uint8),
-            )
-            white_mask = cv2.morphologyEx(
-                white_mask, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8), iterations=1
-            )
-            white_mask = cv2.morphologyEx(
-                white_mask, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8), iterations=2
-            )
-
-            roi_margin = 20
-            x0 = max(0, x - roi_margin)
-            y0 = max(0, y - roi_margin)
-            x1 = min(frame.shape[1], x + w + roi_margin)
-            y1 = min(frame.shape[0], y + h + roi_margin)
-            white_roi_mask = np.zeros_like(white_mask)
-            cv2.rectangle(white_roi_mask, (x0, y0), (x1, y1), 255, thickness=cv2.FILLED)
-            white_mask = cv2.bitwise_and(white_mask, white_roi_mask)
-
-            white_contours, _ = cv2.findContours(
-                white_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
-            )
-
             min_white_model_area = self.get_parameter(
                 'min_white_model_area_px'
             ).get_parameter_value().double_value
-            max_white_contour = None
-            max_white_contour_area = 0.0
-            for contour in white_contours:
-                contour_area = cv2.contourArea(contour)
-                if contour_area < min_white_model_area:
-                    continue
-                if contour_area > max_white_contour_area:
-                    max_white_contour_area = contour_area
-                    max_white_contour = contour
-
-            if max_white_contour is not None:
-                white_center = centerOfMass(max_white_contour)
-                white_dx = float(new_cx - white_center[0])
-                white_dy = float(new_cy - white_center[1])
-                white_distance = float(np.hypot(white_dx, white_dy))
-
-                cv2.drawContours(out, [max_white_contour], -1, (255, 255, 255), 2)
-                cv2.circle(out, tuple(white_center), 5, (0, 165, 255), -1)
-                cv2.line(out, tuple(new_center), tuple(white_center), (0, 165, 255), 2)
+            white_model = detect_white_model(
+                hsv, bbox, frame.shape, new_center, min_white_model_area
+            )
+            if white_model is not None:
+                cv2.drawContours(out, [white_model['contour']], -1, (255, 255, 255), 2)
+                cv2.circle(out, white_model['center'], 5, (0, 165, 255), -1)
+                cv2.line(out, new_center, white_model['center'], (0, 165, 255), 2)
                 cv2.putText(
                     out,
-                    f'root d: {white_distance:.1f}px',
-                    (max(0, white_center[0] - 60), max(20, white_center[1] - 10)),
+                    f"root d: {white_model['distance']:.1f}px",
+                    (
+                        max(0, white_model['center'][0] - 60),
+                        max(20, white_model['center'][1] - 10),
+                    ),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.5,
                     (0, 165, 255),
@@ -231,23 +141,13 @@ class DetectionNode(Node):
             ####################################################################
             # Find the mounting dock holes
             ####################################################################
-            # Holes appear as non-green islands inside the green object.
-            holes_mask = cv2.bitwise_and(cv2.bitwise_not(green_mask), obj_mask)
-            holes_mask = cv2.morphologyEx(holes_mask, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
-
-            hole_contours, _ = cv2.findContours(
-                holes_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
-            )
-
             min_hole_area = self.get_parameter(
                 'min_hole_area_px'
             ).get_parameter_value().double_value
-            hole_count = 0
+            _, hole_contours, hole_target = detect_holes(
+                green_mask, obj_mask, new_center, min_hole_area
+            )
             for hole in hole_contours:
-                area = cv2.contourArea(hole)
-                if area < min_hole_area:
-                    continue
-                hole_count += 1
                 (cx, cy), radius = cv2.minEnclosingCircle(hole)
                 center = (int(cx), int(cy))
                 cv2.circle(out, center, int(radius), (0, 0, 255), 2)
@@ -256,7 +156,7 @@ class DetectionNode(Node):
             cv2.rectangle(out, (x, y), (x + w, y + h), (0, 255, 255), 2)
             cv2.putText(
                 out,
-                f'holes: {hole_count}',
+                f'holes: {len(hole_contours)}',
                 (x, max(0, y - 10)),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.6,
@@ -265,20 +165,7 @@ class DetectionNode(Node):
                 cv2.LINE_AA,
             )
 
-            # Calculate distance from arm center to hole center in pixel space
-            max_hole_contour_area = 0
-            max_hole_contour = None
-            for c in hole_contours:
-                if cv2.contourArea(c) > max_hole_contour_area:
-                    max_hole_contour_area = cv2.contourArea(c)
-                    max_hole_contour = c
-            hole_cm = np.mean(max_hole_contour.reshape(-1, 2), axis=0).astype(int)
-            dx = new_cx - hole_cm[0]
-            dy = new_cy - hole_cm[1]
-            distance = np.sqrt(dx**2 + dy**2)
-
-
-            if self.use_visual_servoing:
+            if self.use_visual_servoing and hole_target is not None:
                 # Publish XY correction as a TF translation (camera frame -> vision target).
                 # Visual servoing controller will move the arm to reduce the offset to zero.
                 meters_per_pixel = self.get_parameter(
@@ -288,9 +175,9 @@ class DetectionNode(Node):
                 t.header.stamp = msg.header.stamp
                 t.header.frame_id = self.tf_parent_frame
                 t.child_frame_id = self.tf_child_frame
-                t.transform.translation.x = float(-dx * meters_per_pixel)
-                t.transform.translation.y = float(-dy * meters_per_pixel)
-                t.transform.translation.z = float(distance * meters_per_pixel)
+                t.transform.translation.x = float(-hole_target['dx'] * meters_per_pixel)
+                t.transform.translation.y = float(-hole_target['dy'] * meters_per_pixel)
+                t.transform.translation.z = float(hole_target['distance'] * meters_per_pixel)
                 t.transform.rotation.x = 0.0
                 t.transform.rotation.y = 0.0
                 t.transform.rotation.z = 0.0
