@@ -50,7 +50,7 @@ def generate_launch_description():
             ),
             Node(
                 package="vision",
-                executable="mounting_detection",
+                executable="detection",
                 output="screen",
             ),
             Node(
@@ -64,23 +64,23 @@ def generate_launch_description():
                 executable="serial_ctrl",
                 output="screen",
             ),
-            Node(
-                package="kinematics",
-                executable="tf_to_inverse",
-                parameters=[
-                    {
-                        "base_frame": "camera_link",
-                        "target_frame": "vision_target",
-                        "input_is_offset": True,
-                        "use_tf_z_offset": False,
-                        "use_tf_pitch": False,
-                        "nominal_x": 0.0,
-                        "nominal_y": 0.20,
-                        "nominal_z": 0.18,
-                        "nominal_pitch": 0.0,
-                    }
-                ],
-                output="screen",
-            ),
+            # Node(
+            #     package="kinematics",
+            #     executable="tf_to_inverse",
+            #     parameters=[
+            #         {
+            #             "base_frame": "camera_link",
+            #             "target_frame": "vision_target",
+            #             "input_is_offset": True,
+            #             "use_tf_z_offset": False,
+            #             "use_tf_pitch": False,
+            #             "nominal_x": 0.0,
+            #             "nominal_y": 0.20,
+            #             "nominal_z": 0.18,
+            #             "nominal_pitch": 0.0,
+            #         }
+            #     ],
+            #     output="screen",
+            # ),
         ]
     )
