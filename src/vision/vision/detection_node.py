@@ -23,6 +23,7 @@ class DetectionNode(Node):
         self.declare_parameter('tf_parent_frame', 'camera_link')
         self.declare_parameter('tf_child_frame', 'vision_target')
         self.declare_parameter('min_hole_area_px', 60.0)
+        self.declare_parameter('min_white_model_area_px', 150.0)
         self.declare_parameter('meters_per_pixel', 0.001)
         self.declare_parameter('use_visual_servoing', False)
 
@@ -163,6 +164,70 @@ class DetectionNode(Node):
             cv2.arrowedLine(out, (new_center[0],new_center[1]), (b[0], b[1]), greenColor, 2, 8, 0, 0.1)
             cv2.circle(out, tuple(new_center), 5, (255, 255, 0), -1)  # magenta center of mass
 
+            x, y, w, h = cv2.boundingRect(obj)
+
+            ####################################################################
+            # Find a white 3d-printed aortic root model (if present) and calculate its center of mass and distance to arm center
+            ####################################################################
+            white_mask = cv2.inRange(
+                hsv,
+                np.array([0, 0, 170], dtype=np.uint8),
+                np.array([180, 80, 255], dtype=np.uint8),
+            )
+            white_mask = cv2.morphologyEx(
+                white_mask, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8), iterations=1
+            )
+            white_mask = cv2.morphologyEx(
+                white_mask, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8), iterations=2
+            )
+
+            roi_margin = 20
+            x0 = max(0, x - roi_margin)
+            y0 = max(0, y - roi_margin)
+            x1 = min(frame.shape[1], x + w + roi_margin)
+            y1 = min(frame.shape[0], y + h + roi_margin)
+            white_roi_mask = np.zeros_like(white_mask)
+            cv2.rectangle(white_roi_mask, (x0, y0), (x1, y1), 255, thickness=cv2.FILLED)
+            white_mask = cv2.bitwise_and(white_mask, white_roi_mask)
+
+            white_contours, _ = cv2.findContours(
+                white_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+            )
+
+            min_white_model_area = self.get_parameter(
+                'min_white_model_area_px'
+            ).get_parameter_value().double_value
+            max_white_contour = None
+            max_white_contour_area = 0.0
+            for contour in white_contours:
+                contour_area = cv2.contourArea(contour)
+                if contour_area < min_white_model_area:
+                    continue
+                if contour_area > max_white_contour_area:
+                    max_white_contour_area = contour_area
+                    max_white_contour = contour
+
+            if max_white_contour is not None:
+                white_center = centerOfMass(max_white_contour)
+                white_dx = float(new_cx - white_center[0])
+                white_dy = float(new_cy - white_center[1])
+                white_distance = float(np.hypot(white_dx, white_dy))
+
+                cv2.drawContours(out, [max_white_contour], -1, (255, 255, 255), 2)
+                cv2.circle(out, tuple(white_center), 5, (0, 165, 255), -1)
+                cv2.line(out, tuple(new_center), tuple(white_center), (0, 165, 255), 2)
+                cv2.putText(
+                    out,
+                    f'root d: {white_distance:.1f}px',
+                    (max(0, white_center[0] - 60), max(20, white_center[1] - 10)),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (0, 165, 255),
+                    2,
+                    cv2.LINE_AA,
+                )
+
+
             ####################################################################
             # Find the mounting dock holes
             ####################################################################
@@ -188,7 +253,6 @@ class DetectionNode(Node):
                 cv2.circle(out, center, int(radius), (0, 0, 255), 2)
                 cv2.circle(out, center, 3, (255, 0, 0), -1)
 
-            x, y, w, h = cv2.boundingRect(obj)
             cv2.rectangle(out, (x, y), (x + w, y + h), (0, 255, 255), 2)
             cv2.putText(
                 out,
